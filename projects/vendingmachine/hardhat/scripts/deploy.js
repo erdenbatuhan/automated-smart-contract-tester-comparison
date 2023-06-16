@@ -1,5 +1,8 @@
 const fs = require("fs");
 const path = require("path");
+const hre = require("hardhat");
+
+const isSolidityFile = (filename) => filename.endsWith(".sol");
 
 const deployContract = async (filename) => {
   // Get the contract name from the file name
@@ -10,31 +13,20 @@ const deployContract = async (filename) => {
 
   // Deploy the contract
   console.log(`Deploying ${contractName}...`);
-  const contract = await ethers.getContractFactory(compiledContract.abi, compiledContract.bytecode)
-    .connect(deployer)
-    .deploy();
-
-  // Wait for the contract to be deployed
-  await contract.deployed();
+  const contract = await hre.ethers.getContractFactory(compiledContract.abi, compiledContract.bytecode)
+    .then(ContractFactory => ContractFactory.deploy());
 
   // Print the contract address
-  console.log(`${contractName} deployed to:`, contract.address);
-  return contract.address;
+  console.log(`${contractName} deployed to:`, contract.target);
+  return contract.target;
 }
 
 const deployAllContracts = async () => {
-  // Get the ContractFactory and Signers from the Hardhat Runtime
-  const [deployer] = await ethers.getSigners();
-
   // Read all contract files in the directory
   const contractsDirectory = path.join(__dirname, "..", "contracts");
   const contractFiles = fs.readdirSync(contractsDirectory);
 
-  await Promise.all([
-    contractFiles
-      .filter(filename => filename.endsWith(".sol"))
-      .forEach(filename => deployContract(deployer, filename))
-  ]);
+  await Promise.all(contractFiles.filter(isSolidityFile).map(deployContract));
 }
 
 const main = async () => {

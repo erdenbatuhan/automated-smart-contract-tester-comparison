@@ -1,0 +1,6 @@
+[submodule "projects/vendingmachine/foundry/lib/forge-std"]
+	path = projects/vendingmachine/foundry/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
+[submodule "projects/vendingmachine/foundry/lib/ds-test"]
+	path = projects/vendingmachine/foundry/lib/ds-test
+	url = https://github.com/dapphub/ds-test
