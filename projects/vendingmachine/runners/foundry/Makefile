@@ -6,7 +6,7 @@ all : clean setup install update build runTests
 clean :; forge clean && rm -rf lib src
 
 # Setup
-setup :; cp -r ../../contracts src && touch src/.DO_NOT_EDIT_HERE
+setup :; cp -R ../../contracts/. src && touch src/.DO_NOT_EDIT_HERE
 
 # Install the modules
 install :;
