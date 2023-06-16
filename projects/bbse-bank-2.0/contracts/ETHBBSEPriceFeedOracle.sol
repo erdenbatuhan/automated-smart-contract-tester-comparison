@@ -1,3 +1,9 @@
+/**
+ * @title ETHBBSEPriceFeedOracle
+ * @dev A smart contract for providing the ETH/BBSE price feed.
+ * @author Burak Öz
+ */
+
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 

@@ -1,3 +1,9 @@
+/**
+ * @title BBSEToken
+ * @dev A smart contract representing the BBSE token.
+ * @author Burak Öz
+ */
+
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 

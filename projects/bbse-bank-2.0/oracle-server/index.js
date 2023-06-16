@@ -1,3 +1,10 @@
+/**
+ * @file index.js
+ * @name OracleServer
+ * @description This is the main entry point file for the Oracle Server.
+ * @author Burak Öz
+ */
+
 import fetch from "node-fetch";
 import Web3 from "web3";
 import ETHBBSEPriceFeedOracle from "../build/contracts/ETHBBSEPriceFeedOracle.json";

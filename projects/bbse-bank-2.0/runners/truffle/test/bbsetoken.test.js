@@ -1,3 +1,10 @@
+/**
+ * @file bbsetoken.test.js
+ * @name BBSETokenTest
+ * @description Test file for BBSEToken contract.
+ * @author Burak Öz
+ */
+
 const BBSEToken = artifacts.require("BBSEToken");
 
 contract("BBSEToken", (accounts) => {

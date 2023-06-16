@@ -1,3 +1,10 @@
+/**
+ * @file 1_deploy.js
+ * @name BBSEBank-2.0-Deployer
+ * @description This script is used to deploy the BBSEToken, BBSEBank, and ETHBBSEPriceFeedOracle contracts.
+ * @author Burak Öz
+ */
+
 const BBSEToken = artifacts.require("BBSEToken");
 const BBSEBank = artifacts.require("BBSEBank");
 const ETHBBSEPriceFeedOracle = artifacts.require("ETHBBSEPriceFeedOracle");

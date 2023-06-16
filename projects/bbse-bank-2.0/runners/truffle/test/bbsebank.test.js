@@ -1,3 +1,10 @@
+/**
+ * @file bbsebank.test.js
+ * @name BBSEBankTest
+ * @description Test file for BBSEBank contract.
+ * @author Burak Öz
+ */
+
 const BBSEToken = artifacts.require("BBSEToken");
 const BBSEBank = artifacts.require("BBSEBank");
 const ETHBBSEPriceFeedOracle = artifacts.require("ETHBBSEPriceFeedOracle");

@@ -1,3 +1,10 @@
+/**
+ * @file oracle.test.js
+ * @name ETHBBSEPriceFeedOracleTest
+ * @description Test file for ETHBBSEPriceFeedOracle contract.
+ * @author Burak Öz
+ */
+
 const truffleAssert = require("truffle-assertions"); // Used for checking events
 const ETHBBSEPriceFeedOracle = artifacts.require("ETHBBSEPriceFeedOracle");
 const BBSEBank = artifacts.require("BBSEBank");

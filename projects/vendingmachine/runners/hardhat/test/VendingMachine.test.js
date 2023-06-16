@@ -5,8 +5,8 @@ describe("VendingMachine", () => {
   const INITIAL_BALANCE = 100;
   const DONUT_PRICE_IN_ETHERS = 2;
 
-  let accounts;
   let vendingMachine;
+  let accounts;
 
   beforeEach(async () => {
     // Deploy the contract and get the accounts
