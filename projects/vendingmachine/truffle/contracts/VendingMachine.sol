@@ -20,7 +20,7 @@ contract VendingMachine {
 
   // Let the owner restock the vending machine
   function restock(uint amount) public {
-    require(msg.sender == owner, "Only the owner can restock.");
+    require(msg.sender == owner, "Only the owner can restock");
 
     donutBalances[address(this)] += amount;
   }

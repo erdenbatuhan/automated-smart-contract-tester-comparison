@@ -12,7 +12,6 @@ contract VendingMachine {
   // set the owner as th address that deployed the contract
   // set the initial vending machine balance to 100
   constructor() {
-    console.log("qwfqw");
     owner = msg.sender;
     donutBalances[address(this)] = 100;
   }

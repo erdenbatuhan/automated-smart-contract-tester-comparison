@@ -1,94 +1,124 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.11;
 
-import "forge-std/Test.sol";
-import "../src/VendingMachine.sol";
+import "forge-std/console.sol";
+import "ds-test/test.sol";
+import "./../src/VendingMachine.sol";
 
-contract TestVendingMachine is Test {
-  VendingMachine vendingMachine;
+interface Vm {
+
+  function expectRevert(bytes calldata) external;
+  function prank(address) external;
+  function deal(address, uint256) external;
+}
+
+contract TestVendingMachine is DSTest {
+
+  Vm private vm = Vm(HEVM_ADDRESS); // HEVM_ADDRESS is 0x7109709ECfa91a80626fF3989D68f67F5b1DD12D)
+  VendingMachine private vendingMachine;
+
+  uint256 private constant INITIAL_BALANCE = 100;
+  uint256 private constant DONUT_PRICE_IN_ETHERS = 2;
 
   function setUp() public {
     vendingMachine = new VendingMachine();
   }
 
-  function testInitialVendingMachineBalance() public {
-    uint expectedBalance = 100;
-    uint balance = vendingMachine.getVendingMachineBalance();
-    assertEq(balance, expectedBalance, "Initial vending machine balance should be 100");
+  // Ensures that the starting balance of the vending machine is the initial balance
+  function testInitialBalance() public {
+    uint256 actualBalance = vendingMachine.getVendingMachineBalance();
+    uint256 expectedBalance = INITIAL_BALANCE;
+
+    assertEq(actualBalance, expectedBalance, "The initial balance should be the expected value");
   }
 
-  function testRestockByOwner() public {
-    uint amount = 50;
-    uint initialBalance = vendingMachine.getVendingMachineBalance();
+  // Ensures the balance of the vending machine can be updated
+  function testBalanceUpdate() public {
+    uint256 amountToBeRestocked = 100;
 
-    vendingMachine.restock(amount);
-    uint balance = vendingMachine.getVendingMachineBalance();
-    assertEq(balance, initialBalance + amount, "Restocking by owner should increase the balance");
+    vendingMachine.restock(amountToBeRestocked);
+
+    uint256 actualBalance = vendingMachine.getVendingMachineBalance();
+    uint256 expectedBalance = INITIAL_BALANCE + amountToBeRestocked;
+
+    assertEq(actualBalance, expectedBalance, "The balance should be updated after restocking");
   }
 
-  function testRestockByNonOwner() public {
-    address nonOwner = address(0x1);
-    uint amount = 50;
-    uint initialBalance = vendingMachine.getVendingMachineBalance();
+  // Allows donuts to be purchased
+  function testDonutPurchase() public {
+    uint256 amountToBePurchased = 40;
+    uint256 purchaseCost = amountToBePurchased * DONUT_PRICE_IN_ETHERS * 1 ether;
 
-    (bool success, ) = address(vendingMachine).call{sender: nonOwner}(
-        abi.encodeWithSignature("restock(uint256)", amount)
-    );
-    assertFalse(success, "Restocking by non-owner should fail");
+    // Purchase donuts
+    vendingMachine.purchase{value: purchaseCost}(amountToBePurchased);
 
-    uint balance = vendingMachine.getVendingMachineBalance();
-    assertEq(balance, initialBalance, "Restocking by non-owner should not affect the balance");
+    uint256 actualBalance = vendingMachine.getVendingMachineBalance();
+    uint256 expectedBalance = INITIAL_BALANCE - amountToBePurchased;
+
+    assertEq(actualBalance, expectedBalance, "The balance should be updated after sale");
   }
 
-  function testPurchaseWithSufficientPaymentAndEnoughDonuts() public {
-    uint amount = 10;
-    uint payment = amount * 2 ether;
-    uint expectedBalance = 100 - amount;
-    address buyer = address(0x1);
-    uint initialBuyerBalance = vendingMachine.donutBalances(buyer);
+  // Allows multiple accounts to purchase donuts
+  function testMultipleAccountPurchase() public {
+    uint256 numBuyers = 4;
+    uint256 amountToBePurchased = 10;
+    uint256 purchaseCost = amountToBePurchased * DONUT_PRICE_IN_ETHERS * 1 ether;
 
-    (bool success, ) = address(vendingMachine).call{ value: payment, sender: buyer }(
-        abi.encodeWithSignature("purchase(uint256)", amount)
-    );
-    assertTrue(success, "Purchase should succeed");
+    // Check donut balances of the buyers "before the purchase"
+    for (uint160 i = 1; i <= numBuyers; i++) {
+      uint256 buyerBalance = vendingMachine.donutBalances(address(i));
+      assertEq(buyerBalance, 0, "Buyer should have no donuts in their balance");
+    }
 
-    uint balance = vendingMachine.getVendingMachineBalance();
-    uint buyerDonutBalance = vendingMachine.donutBalances(buyer);
-    assertEq(balance, expectedBalance, "Vending machine balance should be reduced");
-    assertEq(buyerDonutBalance, initialBuyerBalance + amount, "Buyer donut balance should increase");
+    // Purchase donuts by each buyer (different accounts)
+    for (uint160 i = 1; i <= numBuyers; i++) {
+      // inject a change of user and give them enough ethers to make the purchase
+      vm.prank(address(i));
+      vm.deal(address(i), purchaseCost);
+
+      vendingMachine.purchase{value: purchaseCost}(amountToBePurchased);
+    }
+
+    uint256 actualBalance = vendingMachine.getVendingMachineBalance();
+    uint256 expectedBalance = INITIAL_BALANCE - numBuyers * amountToBePurchased;
+
+    // Check the balance of the vending machine
+    assertEq(actualBalance, expectedBalance, "The balance should be updated after multiple purchases");
+
+    // Check donut balances of the buyers "after the purchase"
+    for (uint160 i = 1; i <= numBuyers; i++) {
+      uint256 buyerBalance = vendingMachine.donutBalances(address(i));
+      assertEq(buyerBalance, amountToBePurchased, "Buyer should have the purchased donuts in their balance");
+    }
   }
 
-  function testPurchaseWithSufficientPaymentAndEnoughDonuts() public {
-    uint amount = 10;
-    uint payment = amount * 2 ether;
-    uint expectedBalance = 100 - amount;
-    address buyer = address(0x1);
-    uint initialBuyerBalance = vendingMachine.donutBalances(buyer);
+  // Prevents purchasing more donuts than available in the vending machine
+  function testInsufficientDonuts() public {
+    uint256 amountToBePurchased = INITIAL_BALANCE + 1; // More than available donuts
+    uint256 purchaseCost = amountToBePurchased * DONUT_PRICE_IN_ETHERS * 1 ether;
 
-    bool success = address(vendingMachine){ value: payment }(abi.encodeWithSignature("purchase(uint256)", amount));
-    assertTrue(success, "Purchase should succeed");
-
-    uint balance = vendingMachine.getVendingMachineBalance();
-    uint buyerDonutBalance = vendingMachine.donutBalances(buyer);
-    assertEq(balance, expectedBalance, "Vending machine balance should be reduced");
-    assertEq(buyerDonutBalance, initialBuyerBalance + amount, "Buyer donut balance should increase");
+    // Attempt to purchase more donuts than available
+    vm.expectRevert(bytes("Not enough donuts in stock to complete this purchase"));
+    vendingMachine.purchase{value: purchaseCost}(amountToBePurchased);
   }
 
-  function testPurchaseWithNotEnoughDonuts() public {
-    uint amount = 200;
-    uint payment = amount * 2 ether;
-    uint initialBalance = vendingMachine.getVendingMachineBalance();
-    address buyer = address(0x1);
-    uint initialBuyerBalance = vendingMachine.donutBalances(buyer);
+  // Prevents purchasing donuts without providing sufficient payment
+  function testInsufficientPayment() public {
+    uint256 amountToBePurchased = 30;
+    uint256 purchaseCost = amountToBePurchased * DONUT_PRICE_IN_ETHERS * 1 ether - 1; // Insufficient payment
 
-    (bool success, ) = address(vendingMachine).call{ value: payment, sender: buyer }(
-        abi.encodeWithSignature("purchase(uint256)", amount)
-    );
-    assertFalse(success, "Purchase with not enough donuts should fail");
+    // Attempt to purchase without providing sufficient payment
+    vm.expectRevert(bytes("You must pay at least 2 ETH per donut"));
+    vendingMachine.purchase{value: purchaseCost}(amountToBePurchased);
+  }
 
-    uint balance = vendingMachine.getVendingMachineBalance();
-    uint buyerDonutBalance = vendingMachine.donutBalances(buyer);
-    assertEq(balance, initialBalance, "Vending machine balance should remain unchanged");
-    assertEq(buyerDonutBalance, initialBuyerBalance, "Buyer donut balance should remain unchanged");
+  // Prevents non-owner addresses from restocking the vending machine
+  function testNonOwnerRestocking() public {
+    // inject a change of user to a non-owner one, which is not address(this)
+    vm.prank(address(5));
+
+    // Attempt to restock from a non-owner address
+    vm.expectRevert(bytes("Only the owner can restock"));
+    vendingMachine.restock(10);
   }
 }

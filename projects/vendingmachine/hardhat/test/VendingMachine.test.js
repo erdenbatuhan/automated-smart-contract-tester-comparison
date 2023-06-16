@@ -34,9 +34,10 @@ describe("VendingMachine", () => {
 
   it(`Allows donuts to be purchased`, async () => {
     const amountToBePurchased = 40;
-    const weiNeededForPurchase = ethers.parseEther((amountToBePurchased * DONUT_PRICE_IN_ETHERS).toString());
+    const purchaseCost = ethers.parseEther((amountToBePurchased * DONUT_PRICE_IN_ETHERS).toString());
 
-    await vendingMachine.purchase(amountToBePurchased, { value: weiNeededForPurchase });
+    // Purchase donuts
+    await vendingMachine.purchase(amountToBePurchased, { value: purchaseCost });
 
     const actualBalance = await vendingMachine.getVendingMachineBalance();
     const expectedBalance = INITIAL_BALANCE - amountToBePurchased;
@@ -47,19 +48,26 @@ describe("VendingMachine", () => {
   it(`Allows multiple accounts to purchase donuts`, async () => {
     const numBuyers = 4;
     const amountToBePurchased = 10;
-    const weiNeededForPurchase = ethers.parseEther((amountToBePurchased * 2).toString());
+    const purchaseCost = ethers.parseEther((amountToBePurchased * 2).toString());
 
-    // Purchase donuts
+    // Check donut balances of the buyers "before the purchase"
     for (let i = 1; i <= numBuyers; i++) {
-      await vendingMachine.connect(accounts[i]).purchase(amountToBePurchased, { value: weiNeededForPurchase });
+      const buyerBalance = await vendingMachine.donutBalances(accounts[i]);
+      expect(buyerBalance).to.equal(0, `Buyer ${i} should have no donuts in their balance`);
+    }
+
+    // Purchase donuts from each account
+    for (let i = 1; i <= numBuyers; i++) {
+      await vendingMachine.connect(accounts[i]).purchase(amountToBePurchased, { value: purchaseCost });
     }
 
     const actualBalance = await vendingMachine.getVendingMachineBalance();
     const expectedBalance = INITIAL_BALANCE - numBuyers * amountToBePurchased;
 
+    // Check the balance of the vending machine
     expect(actualBalance).to.equal(expectedBalance, "The balance should be updated after multiple purchases");
 
-    // Check donut balances of the buyers
+    // Check donut balances of the buyers "after the purchase"
     for (let i = 1; i <= numBuyers; i++) {
       const buyerBalance = await vendingMachine.donutBalances(accounts[i]);
       expect(buyerBalance).to.equal(amountToBePurchased, `Buyer ${i} should have the purchased donuts in their balance`);
@@ -68,29 +76,26 @@ describe("VendingMachine", () => {
 
   it(`Prevents purchasing more donuts than available in the vending machine`, async () => {
     const amountToBePurchased = INITIAL_BALANCE + 1;
-    const weiNeededForPurchase = ethers.parseEther((amountToBePurchased * DONUT_PRICE_IN_ETHERS).toString());
+    const purchaseCost = ethers.parseEther((amountToBePurchased * DONUT_PRICE_IN_ETHERS).toString());
 
     // Attempt to purchase more donuts than available
-    await expect(vendingMachine.purchase(amountToBePurchased, { value: weiNeededForPurchase })).to.be.revertedWith(
+    await expect(vendingMachine.purchase(amountToBePurchased, { value: purchaseCost })).to.be.revertedWith(
       "Not enough donuts in stock to complete this purchase"
     );
   });
 
   it(`Prevents purchasing donuts without providing sufficient payment`, async () => {
     const amountToBePurchased = 30;
-    const weiNeededForPurchase = ethers.parseEther((amountToBePurchased * DONUT_PRICE_IN_ETHERS - 1).toString()); // Insufficient payment
+    const purchaseCost = ethers.parseEther((amountToBePurchased * DONUT_PRICE_IN_ETHERS - 1).toString()); // Insufficient payment
 
     // Attempt to purchase without providing sufficient payment
-    await expect(vendingMachine.purchase(amountToBePurchased, { value: weiNeededForPurchase })).to.be.revertedWith(
+    await expect(vendingMachine.purchase(amountToBePurchased, { value: purchaseCost })).to.be.revertedWith(
       "You must pay at least 2 ETH per donut"
     );
   });
 
   it(`Prevents non-owner addresses from restocking the vending machine`, async () => {
-    const amountToBeRestocked = 10;
-    const nonOwner = accounts[1]; // Owner is accounts[0]
-
-    // Attempt to restock from a non-owner address
-    await expect(vendingMachine.connect(nonOwner).restock(amountToBeRestocked)).to.be.revertedWith("Only the owner can restock");
+    // Attempt to restock from a non-owner address (Owner is accounts[0])
+    await expect(vendingMachine.connect(accounts[5]).restock(10)).to.be.revertedWith("Only the owner can restock");
   });
 });
