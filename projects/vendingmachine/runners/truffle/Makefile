@@ -3,10 +3,7 @@
 all : clean setup compile runTests
 
 # Clean
-clean :; rm -rf build contracts
-
-# Setup
-setup :; ln -s ../../contracts contracts
+clean :; rm -rf build
 
 # Compile
 compile :; gtime truffle compile

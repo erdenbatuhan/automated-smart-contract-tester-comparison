@@ -3,10 +3,10 @@
 all : clean setup compile runTests
 
 # Clean
-clean :; npm i && npx hardhat clean && rm -rf node_modules cache contracts
+clean :; npm i && npx hardhat clean && rm -rf node_modules cache
 
 # Setup
-setup :; npm i && ln -s ../../contracts contracts
+setup :; npm i
 
 # Compile
 compile :; gtime npx hardhat compile
