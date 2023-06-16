@@ -8,6 +8,42 @@ describe("BBSEBank", () => {
   let bbseToken, oracle, bbseBank;
   let accounts;
 
+  // A helper function to set the scene for borrowing
+  const setTheScene = async () => {
+    // Borrower needs to have some BBSE tokens that she/he can give as collateral
+    // Keep in mind that the value of the collateral should be > requested Ether * collateralization ratio
+    // To earn BBSE tokens, let's do a deposit (1 ETH) from the borrower's account first
+    // Dummy transactions to increase the block number, such that more interest is paid to the depositor
+    for (let i = 1; i <= 4; i++) {
+      await bbseBank.connect(accounts[i]).deposit({ value: ethers.parseEther("1") });
+    }
+
+    // Withdraw the deposit to earn BBSE tokens (approx. 0.12 BBSE tokens)
+    await bbseBank.connect(accounts[1]).withdraw();
+
+    // BBSEBank should be able to transfer BBSE tokens from the borrower to its own account
+    // Thus, borrower should first call approve on BBSEToken contract and set the allowance
+    await bbseToken.connect(accounts[1]).approve(
+      bbseBank.target,
+      ethers.parseEther("0.05")
+    );
+
+    // Since BBSEBank needs to have some Ether in it to lend out,
+    // let's just transfer some from an unused account
+    const transaction = await accounts[9].sendTransaction({
+      to: bbseBank.target,
+      value: ethers.parseEther("10"),
+    });
+    
+    // Wait for the transaction to be mined
+    await transaction.wait();
+
+    // Update the ETHBBSEPriceFeedOracle rate (normally done by the oracle server)
+    // Since we are using AAVE (instead of BBSE as ETH/BBSE doesn't exist),
+    // let's use an approximate rate for ETH/AAVE as our rate
+    await oracle.updateRate(33);
+  };
+
   /** 
    * A new instance of BBSEToken, ETHBBSEPriceFeedOracle, and BBSEBank contracts are set before each test case.
    * The minter role is initially passed to BBSEBank such that it can mint tokens
@@ -28,42 +64,6 @@ describe("BBSEBank", () => {
     // Pass minter role to owner
     await bbseToken.connect(accounts[0]).passMinterRole(bbseBank.target);
   });
-
-  // A helper function to set the scene for borrowing
-  const setTheScene = async () => {
-    // Borrower needs to have some BBSE tokens that she/he can give as collateral
-    // Keep in mind that the value of the collateral should be > requested Ether * collateralization ratio
-    // To earn BBSE tokens, let's do a deposit (1 ETH) from the borrower's account first
-    // Dummy transactions to increase the block number, such that more interest is paid to the depositor
-    for (let i = 1; i <= 4; i++) {
-      await bbseBank.connect(accounts[i]).deposit({ value: ethers.parseEther("1") });
-    }
-
-    // Withdraw the deposit to earn BBSE tokens (approx. 0.12 BBSE tokens)
-    await bbseBank.connect(accounts[1]).withdraw();
-
-    // BBSEBank should be able to transfer BBSE tokens from the borrower to its own account
-    // Thus, borrower should first call approve on BBSEToken contract and set the allowance
-    await bbseToken.connect(accounts[1]).approve(
-      bbseBank.target,
-      ethers.parseEther("0.05") // ERC20 tokens are also represented with 18 decimals
-    );
-
-    // Since BBSEBank needs to have some Ether in it to lend out,
-    // let's just transfer some from an unused account
-    const transaction = await accounts[9].sendTransaction({
-      to: bbseBank.target,
-      value: ethers.parseEther("10"),
-    });
-    
-    // Wait for the transaction to be mined
-    await transaction.wait();
-
-    // Update the ETHBBSEPriceFeedOracle rate (normally done by the oracle server)
-    // Since we are using AAVE (instead of BBSE as ETH/BBSE doesn't exist),
-    // let's use an approximate rate for ETH/AAVE as our rate
-    await oracle.updateRate(33);
-  };
 
   // Success scenarios
   describe("success", () => {
@@ -138,7 +138,6 @@ describe("BBSEBank", () => {
       const bankOldTokenBalance = await bbseToken.balanceOf(bbseBank.target);
   
       // Borrows 0.001 Ether while collateralizing (0.001 * colleteralization_ratio * rate) BBSE tokens == 0.0495 BBSE tokens
-      // Remember that ERC20 tokens also have 18 decimals. Thus, 0.0495 BBSE tokens == 0.0495 * 10**18 units
       // Note: We have allowed for BBSEBank to transfer 0.05 BBSE tokens from borrower to itself,
       // while the collateral value is 0.0495 BBSE tokens. Ideally, you should only allow the required amount.
       await bbseBank.connect(accounts[1]).borrow(ethers.parseEther("0.001"));
