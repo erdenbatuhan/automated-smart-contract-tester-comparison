@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.11;
 
-// import "hardhat/console.sol";
+import "hardhat/console.sol";
 
 contract VendingMachine {
 
@@ -12,6 +12,7 @@ contract VendingMachine {
   // set the owner as th address that deployed the contract
   // set the initial vending machine balance to 100
   constructor() {
+    console.log("qwfqw");
     owner = msg.sender;
     donutBalances[address(this)] = 100;
   }

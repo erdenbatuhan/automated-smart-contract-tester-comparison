@@ -1,5 +1,5 @@
 {
-  "name": "hardhat",
+  "name": "vendingmachine-hardhat",
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^3.0.0",
     "chai": "^4.3.7",
