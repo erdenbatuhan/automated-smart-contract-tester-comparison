@@ -1,1 +1,1 @@
-# automated-smart-contract-tester
+# Automated Smart Contract Tester
