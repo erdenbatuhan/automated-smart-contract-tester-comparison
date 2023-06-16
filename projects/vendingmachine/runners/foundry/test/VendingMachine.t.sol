@@ -3,7 +3,7 @@ pragma solidity ^0.8.11;
 
 import "forge-std/console.sol";
 import "ds-test/test.sol";
-import "./../src/VendingMachine.sol";
+import "src/VendingMachine.sol";
 
 interface Vm {
 

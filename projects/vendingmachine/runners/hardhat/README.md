@@ -1,5 +1,13 @@
 # Hardhat
 
+Run make:
+
+```bash
+make
+```
+
+Helpful commands:
+
 ```shell
 npx hardhat help
 npx hardhat test
