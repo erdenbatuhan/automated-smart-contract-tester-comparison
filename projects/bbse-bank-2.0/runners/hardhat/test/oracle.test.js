@@ -4,7 +4,7 @@ const { ethers } = require("hardhat");
 describe("ETHBBSEPriceFeedOracle", () => {
   const YEARLY_RETURN_RATE = 10;
 
-  let bbseToken, oracle, bbseBank;
+  let oracle, bbseToken, bbseBank;
   let accounts;
 
   /**
@@ -26,7 +26,7 @@ describe("ETHBBSEPriceFeedOracle", () => {
     bbseToken = await ethers.getContractFactory("BBSEToken")
       .then(BBSEToken => BBSEToken.deploy());
     bbseBank = await ethers.getContractFactory("BBSEBank")
-      .then(BBSEBank => BBSEBank.deploy(bbseToken.target, YEARLY_RETURN_RATE, oracle.target)); // Sets the yearly return rate
+      .then(BBSEBank => BBSEBank.deploy(bbseToken.target, YEARLY_RETURN_RATE, oracle.target));
   };
 
   beforeEach(async () => {
