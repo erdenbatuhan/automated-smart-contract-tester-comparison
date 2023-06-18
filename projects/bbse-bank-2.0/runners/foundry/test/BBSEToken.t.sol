@@ -6,7 +6,7 @@ import "src/BBSEToken.sol";
 
 abstract contract BBSETokenTest is ExtendedDSTest {
 
-  BBSEToken public bbseToken;
+  BBSEToken internal bbseToken;
 
   function setUp() public {
     bbseToken = new BBSEToken();
@@ -15,23 +15,28 @@ abstract contract BBSETokenTest is ExtendedDSTest {
 
 contract BBSETokenTest_SuccessScenarios is BBSETokenTest {
 
+  // should set the token name correctly
   function test_1_SucceedIf_TokenNameIsSetCorrectly() public {
     assertEq(bbseToken.name(), "BBSE TOKEN", "Token name is not set correctly");
   }
 
+  // should set the token symbol correctly
   function test_2_SucceedIf_TokenSymbolIsSetCorrectly() public {
     assertEq(bbseToken.symbol(), "BBSE", "Token symbol is not set correctly");
   }
 
+  // should set the minter correctly
   function test_3_SucceedIf_MinterIsSetCorrectly() public {
     assertEq(bbseToken.minter(), address(this), "Minter is not set correctly"); // address(this) is the owner
   }
 
+  // should pass minter role to second account in accounts
   function test_4_SucceedIf_MinterRoleIsPassedCorrectly() public {
     bbseToken.passMinterRole(address(1));
     assertEq(bbseToken.minter(), address(1), "Minter role is not passed correctly");
   }
 
+  // should mint 10 tokens to second account in accounts
   function test_5_SucceedIf_TokensAreMintedCorrectly() public {
     bbseToken.mint(address(1), 10);
     assertEq(bbseToken.balanceOf(address(1)), 10, "Tokens are not minted correctly");
@@ -40,6 +45,7 @@ contract BBSETokenTest_SuccessScenarios is BBSETokenTest {
 
 contract BBSETokenTest_FailureScenarios is BBSETokenTest {
 
+  // should reject minter role passing
   function test_1_RevertWhen_NonMinterPassesMinterRole() public {
     vm.prank(address(1)); // Inject a change of user to a non-minter one
 
@@ -48,6 +54,7 @@ contract BBSETokenTest_FailureScenarios is BBSETokenTest {
     bbseToken.passMinterRole(address(2));
   }
 
+  // should reject token minting
   function test_2_RevertWhen_NonMinterMintsTokens() public {
     vm.prank(address(1)); // Inject a change of user to a non-minter one
 
