@@ -90,7 +90,7 @@ contract BBSEBank is Ownable {
   * @param _yearlyReturnRate yearly return rate of the bank
   * @param _oracleContract address of the deployed ETHBBSEPriceFeedOracle contract
   */
-  constructor (address _bbseTokenContract, uint32 _yearlyReturnRate, address _oracleContract) public validRate(_yearlyReturnRate) {
+  constructor (address _bbseTokenContract, uint32 _yearlyReturnRate, address _oracleContract) validRate(_yearlyReturnRate) {
     bbseTokenContract = BBSEToken(_bbseTokenContract);
     oracleContract = ETHBBSEPriceFeedOracle(_oracleContract);
     yearlyReturnRate = _yearlyReturnRate;

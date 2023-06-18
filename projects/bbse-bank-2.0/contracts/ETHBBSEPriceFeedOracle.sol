@@ -28,7 +28,7 @@ contract ETHBBSEPriceFeedOracle is Ownable {
   * Emits GetNewRate to trigger the oracle server to update the rate.
   * The priceFeed parameter of GetNewRate should be ETH/BBSE
   */
-  constructor () public { 
+  constructor () { 
     lastUpdateBlock = block.number;
     rate = 0;
     emit GetNewRate("ETH/BBSE");
