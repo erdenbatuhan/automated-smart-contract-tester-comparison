@@ -1,4 +1,4 @@
-# Truffle
+# Vending Machine - Runners/Truffle
 
 Run make:
 

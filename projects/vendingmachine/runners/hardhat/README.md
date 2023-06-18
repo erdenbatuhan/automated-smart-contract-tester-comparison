@@ -1,4 +1,4 @@
-# Hardhat
+# Vending Machine - Runners/Hardhat
 
 Run make:
 

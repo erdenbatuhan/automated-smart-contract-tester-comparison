@@ -1,4 +1,4 @@
-# Foundry
+# Vending Machine - Runners/Foundry
 
 Run make:
 

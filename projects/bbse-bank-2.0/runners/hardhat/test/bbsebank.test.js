@@ -205,8 +205,7 @@ describe("BBSEBank", () => {
       expect(bankNewEthBalance).to.be.above(bankOldEthBalance, "BBSEBank's Ether balance should have increased");
       expect(bankOldTokenBalance).to.be.above(bankNewTokenBalance, "BBSEBank's token balance should have decreased");
     
-      // New token balance of the bank should be greater than initial balance
-      // since a fee is taken from the borrower
+      // New token balance of the bank should be greater than initial balance since a fee is taken from the borrower
       expect(bankNewTokenBalance).to.be.above(bankTokenBalanceBeforeBorrowing, "BBSEBank's token balance should have increased");
     });
   });

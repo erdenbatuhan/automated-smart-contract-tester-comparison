@@ -1,4 +1,4 @@
-# Hardhat
+# BBSE Bank 2.0 - Runners/Hardhat
 
 Run make:
 
