@@ -20,5 +20,11 @@ abstract contract ExtendedDSTest is DSTest {
 
   Vm internal constant vm = Vm(HEVM_ADDRESS); // HEVM_ADDRESS is 0x7109709ECfa91a80626fF3989D68f67F5b1DD12D
 
+  uint160 internal constant FIRST_ACC_ID = 11; // Start at 11 to skip the first few accounts
+
   constructor() {}
+
+  function assertFalse(bool data, string memory err) internal virtual {
+    assertTrue(!data, err);
+  }
 }

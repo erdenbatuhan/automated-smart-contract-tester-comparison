@@ -73,7 +73,7 @@ contract ETHBBSEPriceFeedOracleTest_FailureScenarios is ETHBBSEPriceFeedOracleTe
   // should reject to update the rate
   function testFail_1_RevertWhen_NonOwnerUpdatesRate() public {
     // Try to update the rate from a non-owner account
-    vm.prank(address(1)); // Inject a change of user to a non-owner one
+    vm.prank(address(FIRST_ACC_ID)); // Inject a change of user to a non-owner one
     oracle.updateRate(10);
   }
 

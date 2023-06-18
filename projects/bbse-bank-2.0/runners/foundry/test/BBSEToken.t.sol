@@ -32,14 +32,14 @@ contract BBSETokenTest_SuccessScenarios is BBSETokenTest {
 
   // should pass minter role to second account in accounts
   function test_4_SucceedIf_MinterRoleIsPassedCorrectly() public {
-    bbseToken.passMinterRole(address(1));
-    assertEq(bbseToken.minter(), address(1), "Minter role is not passed correctly");
+    bbseToken.passMinterRole(address(FIRST_ACC_ID));
+    assertEq(bbseToken.minter(), address(FIRST_ACC_ID), "Minter role is not passed correctly");
   }
 
   // should mint 10 tokens to second account in accounts
   function test_5_SucceedIf_TokensAreMintedCorrectly() public {
-    bbseToken.mint(address(1), 10);
-    assertEq(bbseToken.balanceOf(address(1)), 10, "Tokens are not minted correctly");
+    bbseToken.mint(address(FIRST_ACC_ID), 10);
+    assertEq(bbseToken.balanceOf(address(FIRST_ACC_ID)), 10, "Tokens are not minted correctly");
   }
 }
 
@@ -47,19 +47,19 @@ contract BBSETokenTest_FailureScenarios is BBSETokenTest {
 
   // should reject minter role passing
   function test_1_RevertWhen_NonMinterPassesMinterRole() public {
-    vm.prank(address(1)); // Inject a change of user to a non-minter one
+    vm.prank(address(FIRST_ACC_ID)); // Inject a change of user to a non-minter one
 
     // Attempt to pass the minter role without being the minter and expect the call to be reverted
     vm.expectRevert(bytes("You are not the minter"));
-    bbseToken.passMinterRole(address(2));
+    bbseToken.passMinterRole(address(FIRST_ACC_ID + 1));
   }
 
   // should reject token minting
   function test_2_RevertWhen_NonMinterMintsTokens() public {
-    vm.prank(address(1)); // Inject a change of user to a non-minter one
+    vm.prank(address(FIRST_ACC_ID)); // Inject a change of user to a non-minter one
 
     // Attempt to mint tokens without being the minter and expect the call to be reverted
     vm.expectRevert(bytes("You are not the minter"));
-    bbseToken.mint(address(1), 10);
+    bbseToken.mint(address(FIRST_ACC_ID), 10);
   }
 }
