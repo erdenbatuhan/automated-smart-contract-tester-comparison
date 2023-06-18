@@ -13,7 +13,7 @@ abstract contract BBSETokenTest is ExtendedDSTest {
   }
 }
 
-contract BBSETokenTest_SucceedScenarios is BBSETokenTest {
+contract BBSETokenTest_SuccessScenarios is BBSETokenTest {
 
   function test_1_SucceedIf_TokenNameIsSetCorrectly() public {
     assertEq(bbseToken.name(), "BBSE TOKEN", "Token name is not set correctly");
