@@ -5,6 +5,9 @@ describe("BBSEBank", () => {
   const YEARLY_RETURN_RATE = 10;
   const INVALID_YEARLY_RETURN_RATE = 1000;
 
+  const ORACLE_RATE = 33;
+  const COLLATERALIZATION_RATIO = 150;
+
   let bbseToken, oracle, bbseBank;
   let accounts;
 
@@ -41,8 +44,11 @@ describe("BBSEBank", () => {
     // Update the ETHBBSEPriceFeedOracle rate (normally done by the oracle server)
     // Since we are using AAVE (instead of BBSE as ETH/BBSE doesn't exist),
     // let's use an approximate rate for ETH/AAVE as our rate
-    await oracle.updateRate(33);
+    await oracle.updateRate(ORACLE_RATE);
   };
+
+  // A helper function to calculate the collateral
+  const calculateCollateral = (amount) => (amount * COLLATERALIZATION_RATIO * ORACLE_RATE) / 100;
 
   /** 
    * A new instance of BBSEToken, ETHBBSEPriceFeedOracle, and BBSEBank contracts are set before each test case.
@@ -88,8 +94,8 @@ describe("BBSEBank", () => {
 
       expect(investor.hasActiveDeposit).to.equal(true, `The investor should have active deposit`);
       expect(investor.amount).to.equal(ethers.parseEther("1"), `The investor should have the ethers`);
-
       expect(investor.startTime).to.be.above(0, "The investor start time should be greater than 0");
+
       expect(await ethers.provider.getBalance(bbseBank.target)).to.be.above(0, "The contract should have a positive Ether balance");
       expect(await bbseBank.totalDepositAmount()).to.be.above(0, "The total deposit amount should be greater than 0");
     });
@@ -100,15 +106,15 @@ describe("BBSEBank", () => {
       await bbseBank.connect(accounts[1]).deposit({ value: depositAmount });
       await bbseBank.connect(accounts[2]).deposit({ value: depositAmount });
 
-      // Get the old ETH balance of account1
+      // Get the old Ether balance of account1
       const oldEthBalance = await ethers.provider.getBalance(accounts[1].address);
 
       // Withdraw from account1
       await bbseBank.connect(accounts[1]).withdraw();
   
-      // Assert the new ETH balance is higher than the old balance
+      // Assert the new Ether balance is higher than the old balance
       const newEthBalance = await ethers.provider.getBalance(accounts[1].address);
-      expect(newEthBalance).to.be.above(oldEthBalance, "The new ETH balance should be higher");
+      expect(newEthBalance).to.be.above(oldEthBalance, "The new Ether balance should be higher");
 
       // Check the token balance of account1
       const tokenBalance = await bbseToken.balanceOf(accounts[1].address);
@@ -119,11 +125,10 @@ describe("BBSEBank", () => {
       expect(investor.hasActiveDeposit).to.equal(false, "account1 should not have an active deposit");
       expect(investor.amount).to.equal(0, "account1's deposit amount should be 0");
 
-      // Check the remaining ETH balance and the total deposit amount in the contract (Only the deposited amount by accounts[2] should be left in the contract balance)
+      // Check the remaining Ether balance and the total deposit amount in the contract (Only the deposited amount by accounts[2] should be left in the contract balance)
       const contractEthBalance = await ethers.provider.getBalance(bbseBank.target);
       const totalDepositAmount = await bbseBank.totalDepositAmount();
-
-      expect(contractEthBalance).to.equal(depositAmount, "The remaining ETH balance in the contract should be equal to the deposit amount");
+      expect(contractEthBalance).to.equal(depositAmount, "The remaining Ether balance in the contract should be equal to the deposit amount");
       expect(totalDepositAmount).to.equal(depositAmount, "The total deposit amount in the contract should be equal to the deposit amount");
     });
 
@@ -140,71 +145,69 @@ describe("BBSEBank", () => {
       // Borrows 0.001 Ether while collateralizing (0.001 * colleteralization_ratio * rate) BBSE tokens == 0.0495 BBSE tokens
       // Note: We have allowed for BBSEBank to transfer 0.05 BBSE tokens from borrower to itself,
       // while the collateral value is 0.0495 BBSE tokens. Ideally, you should only allow the required amount.
-      await bbseBank.connect(accounts[1]).borrow(ethers.parseEther("0.001"));
+      const amountBorrowed = ethers.parseEther("0.001");
+      await bbseBank.connect(accounts[1]).borrow(amountBorrowed);
   
       // Check borrower's loan details
       const borrower = await bbseBank.borrowers(accounts[1].address);
-
-      const expectedBorrowerAmount = ethers.parseEther("0.001");
-      const expectedBorrowerCollateral = ((Number(ethers.parseEther("0.001")) * 150) / 100) * 33;
-
       expect(borrower.hasActiveLoan).to.equal(true, "Borrower should have an active loan");
-      expect(borrower.amount).to.equal(expectedBorrowerAmount, "Borrower's loan amount should be 0.001 Ether");
-      expect(Number(borrower.collateral)).to.equal(expectedBorrowerCollateral, "Borrower's collateral should be calculated correctly");
+      expect(borrower.amount).to.equal(amountBorrowed, "Borrower's loan amount should be equal to the amount borrowed");
+      expect(Number(borrower.collateral)).to.equal(calculateCollateral(Number(amountBorrowed)), "Borrower's collateral should be calculated correctly");
   
       // Check if borrower has more ETH than before and less BBSE tokens
-      const borrowerNewTokenBalance = await bbseToken.balanceOf(accounts[1].address);
       const borrowerNewEthBalance = await ethers.provider.getBalance(accounts[1].address);
-  
-      expect(borrowerNewEthBalance).to.be.above(borrowerOldEthBalance, "Borrower's ETH balance should have increased");
+      const borrowerNewTokenBalance = await bbseToken.balanceOf(accounts[1].address);
+      expect(borrowerNewEthBalance).to.be.above(borrowerOldEthBalance, "Borrower's Ether balance should have increased");
       expect(borrowerOldTokenBalance).to.be.above(borrowerNewTokenBalance, "Borrower's token balance should have decreased");
   
       // Check if BBSEBank has more BBSE tokens than before and less ETH
       const bankNewEthBalance = await ethers.provider.getBalance(bbseBank.target);
       const bankNewTokenBalance = await bbseToken.balanceOf(bbseBank.target);
-  
-      expect(bankOldEthBalance).to.be.above(bankNewEthBalance, "BBSEBank's ETH balance should have decreased");
+      expect(bankOldEthBalance).to.be.above(bankNewEthBalance, "BBSEBank's Ether balance should have decreased");
       expect(bankNewTokenBalance).to.be.above(bankOldTokenBalance, "BBSEBank's token balance should have increased");
     });
 
     it("should pay loan correctly", async () => {
       // Set the scene (initialize token balances and allowances)
       await setTheScene();
+
+      // Get the initial token balance of the bank before the borrowing
+      const bankTokenBalanceBeforeBorrowing = await bbseToken.balanceOf(bbseBank.target);
+
+      // Borrow some Ether
+      const amountBorrowed = ethers.parseEther("0.001");
+      await bbseBank.connect(accounts[1]).borrow(amountBorrowed);
     
-      const bankInitialTokenBalance = await bbseToken.balanceOf(bbseBank.target);
-    
-      await bbseBank.connect(accounts[1]).borrow(ethers.parseEther("0.001"));
-    
+      // Get the initial balances and allowances
       const borrowerOldTokenBalance = await bbseToken.balanceOf(accounts[1].address);
       const borrowerOldEthBalance = await ethers.provider.getBalance(accounts[1].address);
       const bankOldEthBalance = await ethers.provider.getBalance(bbseBank.target);
       const bankOldTokenBalance = await bbseToken.balanceOf(bbseBank.target);
     
       // Paying back the loan
-      await bbseBank.connect(accounts[1]).payLoan({ value: ethers.parseEther("0.001") });
+      await bbseBank.connect(accounts[1]).payLoan({ value: amountBorrowed });
     
+      // Check borrower's loan details
       const borrower = await bbseBank.borrowers(accounts[1].address);
       expect(borrower.hasActiveLoan).to.equal(false, "Borrower should not have an active loan");
       expect(borrower.amount).to.equal(0, "Borrower's loan amount should be 0");
       expect(borrower.collateral).to.equal(0, "Borrower's collateral should be 0");
     
       // Checks if borrower has more BBSE tokens than before and less ETH
-      const borrowerNewTokenBalance = await bbseToken.balanceOf(accounts[1].address);
       const borrowerNewEthBalance = await ethers.provider.getBalance(accounts[1].address);
-    
-      expect(borrowerOldEthBalance).to.be.above(borrowerNewEthBalance, "Borrower's ETH balance should have decreased");
+      const borrowerNewTokenBalance = await bbseToken.balanceOf(accounts[1].address);
+      expect(borrowerOldEthBalance).to.be.above(borrowerNewEthBalance, "Borrower's Ether balance should have decreased");
       expect(borrowerNewTokenBalance).to.be.above(borrowerOldTokenBalance, "Borrower's token balance should have increased");
     
       // Checks if BBSEBank has more ETH than before and less BBSE tokens
       const bankNewEthBalance = await ethers.provider.getBalance(bbseBank.target);
       const bankNewTokenBalance = await bbseToken.balanceOf(bbseBank.target);
-    
-      expect(bankNewEthBalance).to.be.above(bankOldEthBalance, "BBSEBank's ETH balance should have increased");
+      expect(bankNewEthBalance).to.be.above(bankOldEthBalance, "BBSEBank's Ether balance should have increased");
       expect(bankOldTokenBalance).to.be.above(bankNewTokenBalance, "BBSEBank's token balance should have decreased");
     
       // New token balance of the bank should be greater than initial balance
       // since a fee is taken from the borrower
-      expect(bankNewTokenBalance).to.be.above(bankInitialTokenBalance, "BBSEBank's token balance should have increased");
+      expect(bankNewTokenBalance).to.be.above(bankTokenBalanceBeforeBorrowing, "BBSEBank's token balance should have increased");
     });
   });
 
