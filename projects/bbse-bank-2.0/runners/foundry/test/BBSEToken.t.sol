@@ -6,7 +6,7 @@ import "src/BBSEToken.sol";
 
 abstract contract BBSETokenTest is ExtendedDSTest {
 
-  BBSEToken bbseToken;
+  BBSEToken public bbseToken;
 
   function setUp() public {
     bbseToken = new BBSEToken();

@@ -8,9 +8,9 @@ import "src/BBSEBank.sol";
 
 abstract contract ETHBBSEPriceFeedOracleTest is ExtendedDSTest {
 
-  ETHBBSEPriceFeedOracle oracle;
-  BBSEToken bbseToken;
-  BBSEBank bbseBank;
+  ETHBBSEPriceFeedOracle public oracle;
+  BBSEToken public bbseToken;
+  BBSEBank public bbseBank;
 
   event GetNewRate(string priceFeed);
 
