@@ -25,7 +25,7 @@ contract TestVendingMachine is DSTest {
   }
 
   // Ensures that the starting balance of the vending machine is the initial balance
-  function test_1_SuccessIf_InitialBalanceIsAsExpected() public {
+  function test_1_SucceedIf_InitialBalanceIsAsExpected() public {
     uint256 actualBalance = vendingMachine.getVendingMachineBalance();
     uint256 expectedBalance = INITIAL_BALANCE;
 
@@ -33,7 +33,7 @@ contract TestVendingMachine is DSTest {
   }
 
   // Ensures the balance of the vending machine can be updated
-  function test_2_SuccessIf_BalanceUpdateSucceeds() public {
+  function test_2_SucceedIf_BalanceUpdateSucceeds() public {
     uint256 amountToBeRestocked = 100;
 
     vendingMachine.restock(amountToBeRestocked);
@@ -45,7 +45,7 @@ contract TestVendingMachine is DSTest {
   }
 
   // Allows donuts to be purchased
-  function test_3_SuccessIf_DonutsCanBePurchased() public {
+  function test_3_SucceedIf_DonutsCanBePurchased() public {
     uint256 amountToBePurchased = 40;
     uint256 purchaseCost = amountToBePurchased * DONUT_PRICE_IN_ETHERS * 1 ether;
 
@@ -59,7 +59,7 @@ contract TestVendingMachine is DSTest {
   }
 
   // Allows multiple accounts to purchase donuts
-  function test_4_SuccessIf_MultipleAccountsCanPurchase() public {
+  function test_4_SucceedIf_MultipleAccountsCanPurchase() public {
     uint256 numBuyers = 4;
     uint256 amountToBePurchased = 10;
     uint256 purchaseCost = amountToBePurchased * DONUT_PRICE_IN_ETHERS * 1 ether;

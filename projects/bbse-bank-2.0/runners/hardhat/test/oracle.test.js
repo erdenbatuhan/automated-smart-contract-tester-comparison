@@ -68,14 +68,6 @@ describe("ETHBBSEPriceFeedOracle", () => {
       // Get rate to see that the GetNewRate event is emitted with ETH/BBSE as priceFeed
       await expect(oracle.connect(accounts[1]).getRate()).to.emit(oracle, "GetNewRate").withArgs("ETH/BBSE");
     });
-  });
-
-  // Failure scenarios
-  describe("failure", () => {
-    it("should reject to update the rate", async () => {
-      // Try to update the rate from a non-owner account
-      await expect(oracle.connect(accounts[1]).updateRate(10)).to.be.revertedWith("Ownable: caller is not the owner");
-    });
 
     it("should not emit GetNewRate when last rate update is not older than 3 blocks", async () => {
       // Deploy BBSEToken and BBSEBank contracts
@@ -83,6 +75,14 @@ describe("ETHBBSEPriceFeedOracle", () => {
 
       // Get rate without emitting GetNewRate event
       await expect(oracle.connect(accounts[1]).getRate()).to.not.emit(oracle, "GetNewRate");
+    });
+  });
+
+  // Failure scenarios
+  describe("failure", () => {
+    it("should reject to update the rate", async () => {
+      // Try to update the rate from a non-owner account
+      await expect(oracle.connect(accounts[1]).updateRate(10)).to.be.revertedWith("Ownable: caller is not the owner");
     });
   });
 });
