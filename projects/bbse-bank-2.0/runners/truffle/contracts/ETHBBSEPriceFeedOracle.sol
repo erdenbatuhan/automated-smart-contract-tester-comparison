@@ -9,8 +9,6 @@ pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-import "forge-std/console.sol";
-
 contract ETHBBSEPriceFeedOracle is Ownable {
   // Max number of blocks before a price update is required
   uint8 public constant MAX_PRICE_AGE = 3;

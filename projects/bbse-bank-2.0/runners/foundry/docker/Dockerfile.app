@@ -1,0 +1,11 @@
+# Use the base image
+FROM --platform=linux/amd64 bbsebank2/foundry/base
+
+# Change the working directory
+WORKDIR /app
+
+# Copy the contracts (the src folder) to the working directory
+COPY src src
+
+# Run the tests
+CMD ["forge test", "-vv"]

@@ -9,7 +9,7 @@ clean :; rm -rf node_modules
 setup :; npm i
 
 # Compile
-compile :; gtime truffle compile
+compile :; time truffle compile
 
 # Test
-runTests :; gtime truffle test
+runTests :; time truffle test

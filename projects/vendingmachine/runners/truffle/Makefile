@@ -6,7 +6,7 @@ all : clean setup compile runTests
 clean :; rm -rf build
 
 # Compile
-compile :; gtime truffle compile
+compile :; time truffle compile
 
 # Test
-runTests :; gtime truffle test
+runTests :; time truffle test

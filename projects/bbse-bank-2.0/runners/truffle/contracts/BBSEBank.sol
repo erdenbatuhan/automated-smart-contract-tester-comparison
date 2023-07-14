@@ -11,8 +11,6 @@ import "./BBSEToken.sol";
 import "./ETHBBSEPriceFeedOracle.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-import "forge-std/console.sol";
-
 contract BBSEBank is Ownable {
   // BBSE Token Contract instance
   BBSEToken private bbseTokenContract;
@@ -64,12 +62,7 @@ contract BBSEBank is Ownable {
   // Address to investor mapping
   mapping (address => Investor) public investors;
 
-  // Getter for investor
-  function getInvestor(address addr) public view returns (bool, uint, uint) {
-    return (investors[addr].hasActiveDeposit, investors[addr].amount, investors[addr].startTime);
-  }
-
-  // Represents a borrower record
+   // Represents a borrower record
   struct Borrower {
     bool hasActiveLoan;
     uint amount;
@@ -78,11 +71,6 @@ contract BBSEBank is Ownable {
 
   // Address to borrower mapping
   mapping (address => Borrower) public borrowers;
-
-  // Getter for borrower
-  function getBorrower(address addr) public view returns (bool, uint, uint) {
-    return (borrowers[addr].hasActiveLoan, borrowers[addr].amount, borrowers[addr].collateral);
-  }
 
  /**
   * @dev Checks whether the yearlyReturnRate value is between 1 and 100
@@ -116,7 +104,7 @@ contract BBSEBank is Ownable {
   * Minimum deposit amount is 1 Ether (be careful about decimals!)
   * Investor can't have an already active deposit.
   */
-  function deposit() payable public {
+  function deposit() payable public{
     require(msg.value >= MIN_DEPOSIT_AMOUNT, "Minimum deposit amount is 1 Ether");
     require(investors[msg.sender].hasActiveDeposit != true, "Account can't have multiple active deposits");
 
@@ -175,7 +163,7 @@ contract BBSEBank is Ownable {
   * ETH amount to be borrowed + totalDepositAmount, must be existing in the contract balance.
   * @param amount the amount of ETH loan request (expressed in Wei)
   */
-  function borrow(uint amount) public {
+  function borrow(uint amount) public{
     require (borrowers[msg.sender].hasActiveLoan != true, "Account can't have multiple active loans");
     require ((amount + totalDepositAmount) <= address(this).balance, "The bank can't lend this amount right now");
 

@@ -9,7 +9,7 @@ clean :; npm i && npx hardhat clean && rm -rf node_modules cache
 setup :; npm i
 
 # Compile
-compile :; gtime npx hardhat compile
+compile :; time npx hardhat compile
 
 # Test
-runTests :; gtime npx hardhat test
+runTests :; time npx hardhat test
