@@ -8,12 +8,17 @@ WORKDIR /app
 COPY foundry.toml .
 COPY remappings.txt .
 
-# Copy the tests to the working directory
-COPY test test
-
 # Install the libraries
 RUN git init
 RUN forge install Openzeppelin/openzeppelin-contracts --no-commit
+
+# Force pre-installing the compiler and pre-building the dependencies
+COPY helpers/EmptyContract.sol src/
+RUN forge build
+RUN rm -rf src
+
+# Copy the tests to the working directory
+COPY test test
 
 # Uncomment to keep the container running for debugging purposes
 # ENTRYPOINT ["tail", "-f", "/dev/null"]

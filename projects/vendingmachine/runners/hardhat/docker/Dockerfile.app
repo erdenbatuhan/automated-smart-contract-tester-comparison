@@ -7,5 +7,5 @@ WORKDIR /app
 # Copy the contracts to the working directory
 COPY contracts contracts
 
-# Run the tests by executing the shell script
+# Run the tests
 CMD ["npx", "hardhat", "test"]

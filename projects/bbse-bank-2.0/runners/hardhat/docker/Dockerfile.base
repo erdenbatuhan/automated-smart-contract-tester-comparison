@@ -10,11 +10,11 @@ COPY package.json .
 # Copy the hardhat configuration file to the working directory
 COPY hardhat.config.js .
 
-# Install project dependencies
-RUN npm install
-
 # Copy the tests to the working directory
 COPY test test
+
+# Install project dependencies
+RUN npm install
 
 # Uncomment to keep the container running for debugging purposes
 # ENTRYPOINT ["tail", "-f", "/dev/null"]
