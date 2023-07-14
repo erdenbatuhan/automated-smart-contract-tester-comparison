@@ -1,0 +1,12 @@
+# Use the base image
+FROM bbsebank2/truffle/base
+
+# Change the working directory
+WORKDIR /app
+
+# Copy the contracts to the working directory
+COPY contracts contracts
+
+# Run the tests
+CMD ["npx", "truffle", "test"]
+# CMD ["./ganache-test.sh"]

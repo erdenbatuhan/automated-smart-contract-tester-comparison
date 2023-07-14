@@ -1,6 +1,11 @@
 # Use the node image of choice as the base image
 FROM node:18-bullseye-slim
 
+# Install necessary packages
+# RUN apt-get update && apt-get install -y netcat
+RUN apt-get update && apt-get install -y build-essential
+RUN apt update && apt install -y python3
+
 # Change the working directory
 WORKDIR /app
 
@@ -10,13 +15,19 @@ COPY package*.json .
 # Install project dependencies
 RUN npm install
 
-# Copy the hardhat configuration file to the working directory
-COPY hardhat.config.js .
+# Copy the truffle configuration file to the working directory
+COPY truffle-config.js .
+
+# Copy the script that triggers Ganache and runs the tests
+# COPY ganache-test.sh .
 
 # Force pre-installing the compiler and pre-building the dependencies
 COPY helpers/EmptyContract.sol contracts/
-RUN npx hardhat compile
+RUN npx truffle compile
 RUN rm -rf contracts
+
+# Copy the migrations to the working directory
+COPY migrations migrations
 
 # Copy the tests to the working directory
 COPY test test
