@@ -1,9 +1,3 @@
-/**
- * @title BBSEBank
- * @dev A smart contract for managing a banking system using the BBSE token.
- * @author Burak Öz
- */
-
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
