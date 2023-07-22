@@ -3,7 +3,10 @@
 all : clean setup compile runTests
 
 # Clean
-clean :; rm -rf build
+clean :; rm -rf build && rm -rf node_modules
+
+# Setup
+setup :; npm i
 
 # Compile
 compile :; time truffle compile

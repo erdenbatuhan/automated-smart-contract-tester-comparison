@@ -9,8 +9,8 @@ make
 Docker commands:
 
 ```bash
-docker build -t bbsebank2/truffle/base -f docker/Dockerfile.base .
-docker build -t bbsebank2/truffle/app -f docker/Dockerfile.app .
+docker build -t bbsebank2/truffle/base:v2 -f docker/v2/Dockerfile.base.v2 .
+docker build -t bbsebank2/truffle/app:v2 -f docker/v2/Dockerfile.app.v2 .
 
-docker run --rm bbsebank2/truffle/app
+docker run --rm bbsebank2/truffle/app:v2
 ```

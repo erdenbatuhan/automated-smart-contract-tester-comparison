@@ -1,0 +1,25 @@
+# Use the node image of choice as the base image
+FROM node:18-bullseye-slim
+
+# Change the working directory
+WORKDIR /app
+
+# Copy the package.json and package-lock.json files to the working directory
+COPY package*.json .
+
+# Install project dependencies
+RUN npm install
+
+# Copy the hardhat configuration file to the working directory
+COPY hardhat.config.js .
+
+# Force the pre-installation of the compiler and the pre-creation of "just" the dependencies
+COPY contracts_empty/EmptyContract.sol contracts/
+RUN npx hardhat compile
+RUN rm -rf contracts
+
+# Copy the tests to the working directory
+COPY test test
+
+# Uncomment to keep the container running for debugging purposes
+# ENTRYPOINT ["tail", "-f", "/dev/null"]

@@ -1,0 +1,24 @@
+# Use the latest foundry image (https://book.getfoundry.sh/getting-started/installation#using-foundry-with-docker)
+FROM ghcr.io/foundry-rs/foundry
+
+# Change the working directory
+WORKDIR /app
+
+# Copy the foundry configuration files to the working directory
+COPY foundry.toml .
+COPY remappings.txt .
+
+# Install the libraries
+RUN git init
+RUN forge install foundry-rs/forge-std --no-commit
+
+# Copy the tests to the working directory
+COPY test test
+
+# Force the pre-installation of the compiler and the pre-creation of the tests and dependencies
+COPY src_initial/ src/
+RUN forge build
+RUN rm -rf src
+
+# Uncomment to keep the container running for debugging purposes
+# ENTRYPOINT ["tail", "-f", "/dev/null"]

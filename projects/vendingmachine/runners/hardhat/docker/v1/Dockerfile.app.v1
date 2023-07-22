@@ -1,5 +1,5 @@
 # Use the base image
-FROM bbsebank2/hardhat/base
+FROM vendingmachine/hardhat/base:v1
 
 # Change the working directory
 WORKDIR /app

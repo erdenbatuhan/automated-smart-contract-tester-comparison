@@ -1,5 +1,5 @@
 # Use the base image
-FROM --platform=linux/amd64 vendingmachine/foundry/base
+FROM vendingmachine/foundry/base:v4
 
 # Change the working directory
 WORKDIR /app
@@ -8,4 +8,4 @@ WORKDIR /app
 COPY src src
 
 # Run the tests
-CMD ["forge test", "-vv"]
+CMD ["forge", "test", "-vv"]

@@ -1,10 +1,15 @@
-# Use the node image of choice as the base image
-FROM node:18-bullseye-slim
+# Use the latest ubuntu image
+FROM ubuntu:latest
 
-# Install necessary packages
-# RUN apt-get update && apt-get install -y netcat
-RUN apt-get update && apt-get install -y build-essential
-RUN apt update && apt install -y python3
+# Install curl, build-essential & python
+RUN apt-get -y update
+RUN apt-get -y install curl
+RUN apt-get -y install build-essential
+RUN apt-get -y install python3
+
+# Install NodeJS 18
+RUN curl -s https://deb.nodesource.com/setup_18.x | bash
+RUN apt-get -y install nodejs
 
 # Change the working directory
 WORKDIR /app
@@ -18,11 +23,8 @@ RUN npm install
 # Copy the truffle configuration file to the working directory
 COPY truffle-config.js .
 
-# Copy the script that triggers Ganache and runs the tests
-# COPY ganache-test.sh .
-
-# Force pre-installing the compiler and pre-building the dependencies
-COPY helpers/EmptyContract.sol contracts/
+# Force the pre-installation of the compiler and the pre-creation of "just" the dependencies
+COPY contracts_empty/EmptyContract.sol contracts/
 RUN npx truffle compile
 RUN rm -rf contracts
 

@@ -1,6 +1,11 @@
 # Use the node image of choice as the base image
 FROM node:18-bullseye-slim
 
+# Install build-essential & python
+RUN apt-get -y update
+RUN apt-get -y install build-essential
+RUN apt-get -y install python3
+
 # Change the working directory
 WORKDIR /app
 
@@ -10,13 +15,11 @@ COPY package*.json .
 # Install project dependencies
 RUN npm install
 
-# Copy the hardhat configuration file to the working directory
-COPY hardhat.config.js .
+# Copy the truffle configuration file to the working directory
+COPY truffle-config.js .
 
-# Force pre-installing the compiler and pre-building the dependencies
-COPY helpers/EmptyContract.sol contracts/
-RUN npx hardhat compile
-RUN rm -rf contracts
+# Copy the migrations to the working directory
+COPY migrations migrations
 
 # Copy the tests to the working directory
 COPY test test

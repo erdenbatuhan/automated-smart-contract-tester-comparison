@@ -1,5 +1,5 @@
 # Use the base image
-FROM vendingmachine/hardhat/base
+FROM bbsebank2/truffle/base:v1
 
 # Change the working directory
 WORKDIR /app
@@ -8,4 +8,4 @@ WORKDIR /app
 COPY contracts contracts
 
 # Run the tests
-CMD ["npx", "hardhat", "test"]
+CMD ["npx", "truffle", "test"]

@@ -4,6 +4,9 @@
 [submodule "projects/vendingmachine/runners/foundry/lib/forge-std"]
 	path = projects/vendingmachine/runners/foundry/lib/forge-std
 	url = https://github.com/foundry-rs/forge-std
+[submodule "projects/bbse-bank-2.0/runners/foundry/lib/forge-std"]
+	path = projects/bbse-bank-2.0/runners/foundry/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
 [submodule "projects/bbse-bank-2.0/runners/foundry/lib/openzeppelin-contracts"]
 	path = projects/bbse-bank-2.0/runners/foundry/lib/openzeppelin-contracts
 	url = https://github.com/Openzeppelin/openzeppelin-contracts

@@ -1,5 +1,15 @@
-# Use the latest foundry image
-FROM ghcr.io/foundry-rs/foundry
+# Use the latest ubuntu image
+FROM ubuntu:latest
+
+# Install curl & git
+RUN apt-get -y update
+RUN apt-get -y install curl
+RUN apt-get -y install git
+
+# Install Foundry
+RUN curl -L https://foundry.paradigm.xyz | bash
+ENV PATH="${PATH}:/root/.foundry/bin"
+RUN foundryup
 
 # Change the working directory
 WORKDIR /app
@@ -12,13 +22,13 @@ COPY remappings.txt .
 RUN git init
 RUN forge install Openzeppelin/openzeppelin-contracts --no-commit
 
-# Force pre-installing the compiler and pre-building the dependencies
-COPY helpers/EmptyContract.sol src/
-RUN forge build
-RUN rm -rf src
-
 # Copy the tests to the working directory
 COPY test test
+
+# Force the pre-installation of the compiler and the pre-creation of the tests and dependencies
+COPY src_initial/ src/
+RUN forge build
+RUN rm -rf src
 
 # Uncomment to keep the container running for debugging purposes
 # ENTRYPOINT ["tail", "-f", "/dev/null"]

@@ -19,8 +19,8 @@ npx hardhat run scripts/deploy.js
 Docker commands:
 
 ```bash
-docker build -t bbsebank2/hardhat/base -f docker/Dockerfile.base .
-docker build -t bbsebank2/hardhat/app -f docker/Dockerfile.app .
+docker build -t bbsebank2/hardhat/base:v2 -f docker/v2/Dockerfile.base.v2 .
+docker build -t bbsebank2/hardhat/app:v2 -f docker/v2/Dockerfile.app.v2 .
 
-docker run --rm bbsebank2/hardhat/app
+docker run --rm bbsebank2/hardhat/app:v2
 ```

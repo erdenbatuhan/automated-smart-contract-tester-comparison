@@ -1,5 +1,5 @@
 # Use the base image
-FROM bbsebank2/truffle/base
+FROM bbsebank2/hardhat/base:v1
 
 # Change the working directory
 WORKDIR /app
@@ -8,5 +8,4 @@ WORKDIR /app
 COPY contracts contracts
 
 # Run the tests
-CMD ["npx", "truffle", "test"]
-# CMD ["./ganache-test.sh"]
+CMD ["npx", "hardhat", "test"]

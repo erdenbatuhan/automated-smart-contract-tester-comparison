@@ -3,7 +3,7 @@
 all : clean setup compile runTests
 
 # Clean
-clean :; rm -rf node_modules
+clean :; rm -rf build && rm -rf node_modules
 
 # Setup
 setup :; npm i

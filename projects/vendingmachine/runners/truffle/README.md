@@ -9,8 +9,8 @@ make
 Docker commands:
 
 ```bash
-docker build -t vendingmachine/truffle/base -f docker/Dockerfile.base .
-docker build -t vendingmachine/truffle/app -f docker/Dockerfile.app .
+docker build -t vendingmachine/truffle/base:v2 -f docker/v2/Dockerfile.base.v2 .
+docker build -t vendingmachine/truffle/app:v2 -f docker/v2/Dockerfile.app.v2 .
 
-docker run --rm vendingmachine/truffle/app
+docker run --rm vendingmachine/truffle/app:v2
 ```
