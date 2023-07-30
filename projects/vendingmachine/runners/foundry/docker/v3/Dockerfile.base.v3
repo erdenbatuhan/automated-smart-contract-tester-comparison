@@ -16,7 +16,7 @@ RUN forge install foundry-rs/forge-std --no-commit
 COPY test test
 
 # Force the pre-installation of the compiler and the pre-creation of the tests and dependencies
-COPY src_initial/ src/
+COPY src_initial src
 RUN forge build
 RUN rm -rf src
 

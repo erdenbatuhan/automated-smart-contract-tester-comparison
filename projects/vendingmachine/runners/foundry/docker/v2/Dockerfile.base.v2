@@ -13,7 +13,7 @@ RUN git init
 RUN forge install foundry-rs/forge-std --no-commit
 
 # Force the pre-installation of the compiler and the pre-creation of "just" the dependencies
-COPY src_initial/empty/EmptyContract.sol src/
+COPY src_initial/empty src
 RUN forge build
 RUN rm -rf src
 

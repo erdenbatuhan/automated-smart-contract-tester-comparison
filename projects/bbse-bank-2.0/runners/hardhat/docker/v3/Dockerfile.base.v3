@@ -22,7 +22,7 @@ RUN npm install
 COPY hardhat.config.js .
 
 # Force the pre-installation of the compiler and the pre-creation of "just" the dependencies
-COPY contracts_empty/EmptyContract.sol contracts/
+COPY contracts_empty contracts
 RUN npx hardhat compile
 RUN rm -rf contracts
 
