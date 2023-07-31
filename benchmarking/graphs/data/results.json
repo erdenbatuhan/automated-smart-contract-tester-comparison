@@ -1,0 +1,243 @@
+{
+  "projects": [
+    {
+      "name": "Vending Machine",
+      "performance_results": [
+        {
+          "framework_name": "Truffle",
+          "data": [
+            {
+              "id": "Not Containerized",
+              "containerized": false,
+              "container_size_mb": null,
+              "execution_time_seconds": 2.72
+            },
+            {
+              "id": "v1",
+              "containerized": true,
+              "container_size_mb": 1030,
+              "execution_time_seconds": 4.70
+            },
+            {
+              "id": "v2",
+              "containerized": true,
+              "container_size_mb": 1060,
+              "execution_time_seconds": 3.58
+            },
+            {
+              "id": "v3",
+              "containerized": true,
+              "container_size_mb": 1080,
+              "execution_time_seconds": 3.58
+            }
+          ]
+        },
+        {
+          "framework_name": "Hardhat",
+          "data": [
+            {
+              "id": "Not Containerized",
+              "containerized": false,
+              "container_size_mb": null,
+              "execution_time_seconds": 1.33
+            },
+            {
+              "id": "v1",
+              "containerized": true,
+              "container_size_mb": 555,
+              "execution_time_seconds": 4.31
+            },
+            {
+              "id": "v2",
+              "containerized": true,
+              "container_size_mb": 597,
+              "execution_time_seconds": 2.68
+            },
+            {
+              "id": "v3",
+              "containerized": true,
+              "container_size_mb": 711,
+              "execution_time_seconds": 2.67
+            }
+          ]
+        },
+        {
+          "framework_name": "Foundry",
+          "data": [
+            {
+              "id": "Not Containerized",
+              "containerized": false,
+              "container_size_mb": null,
+              "execution_time_seconds": 0.70
+            },
+            {
+              "id": "v1",
+              "containerized": true,
+              "container_size_mb": 106,
+              "execution_time_seconds": 8.88
+            },
+            {
+              "id": "v2",
+              "containerized": true,
+              "container_size_mb": 121,
+              "execution_time_seconds": 7.69
+            },
+            {
+              "id": "v3",
+              "containerized": true,
+              "container_size_mb": 127,
+              "execution_time_seconds": 5.28
+            },
+            {
+              "id": "v4",
+              "containerized": true,
+              "container_size_mb": 1690,
+              "execution_time_seconds": 0.72
+            },
+            {
+              "id": "v5",
+              "containerized": true,
+              "container_size_mb": 268,
+              "execution_time_seconds": 0.71
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "BBSE Bank 2.0",
+      "performance_results": [
+        {
+          "framework_name": "Truffle",
+          "data": [
+            {
+              "id": "Not Containerized",
+              "containerized": false,
+              "container_size_mb": null,
+              "execution_time_seconds": 4.97
+            },
+            {
+              "id": "v1",
+              "containerized": true,
+              "container_size_mb": 1040,
+              "execution_time_seconds": 8.27
+            },
+            {
+              "id": "v2",
+              "containerized": true,
+              "container_size_mb": 1060,
+              "execution_time_seconds": 7.29
+            },
+            {
+              "id": "v3",
+              "containerized": true,
+              "container_size_mb": 1080,
+              "execution_time_seconds": 7.31
+            }
+          ]
+        },
+        {
+          "framework_name": "Hardhat",
+          "data": [
+            {
+              "id": "Not Containerized",
+              "containerized": false,
+              "container_size_mb": null,
+              "execution_time_seconds": 2.42
+            },
+            {
+              "id": "v1",
+              "containerized": true,
+              "container_size_mb": 557,
+              "execution_time_seconds": 7.02
+            },
+            {
+              "id": "v2",
+              "containerized": true,
+              "container_size_mb": 581,
+              "execution_time_seconds": 6.03
+            },
+            {
+              "id": "v3",
+              "containerized": true,
+              "container_size_mb": 645,
+              "execution_time_seconds": 6.02
+            }
+          ]
+        },
+        {
+          "framework_name": "Foundry",
+          "data": [
+            {
+              "id": "Not Containerized",
+              "containerized": false,
+              "container_size_mb": null,
+              "execution_time_seconds": 1.33
+            },
+            {
+              "id": "v1",
+              "containerized": true,
+              "container_size_mb": 113,
+              "execution_time_seconds": 14.56
+            },
+            {
+              "id": "v2",
+              "containerized": true,
+              "container_size_mb": 133,
+              "execution_time_seconds": 11.29
+            },
+            {
+              "id": "v3",
+              "containerized": true,
+              "container_size_mb": 137,
+              "execution_time_seconds": 10.91
+            },
+            {
+              "id": "v4",
+              "containerized": true,
+              "container_size_mb": 1700,
+              "execution_time_seconds": 1.41
+            },
+            {
+              "id": "v5",
+              "containerized": true,
+              "container_size_mb": 278,
+              "execution_time_seconds": 1.42
+            }
+          ]
+        }
+      ],
+      "hardware_tests": {
+        "cpus": [0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.5, 2.0, 2.5, 3.0, 4.0, 5.0],
+        "results": [
+          {
+            "framework_name": "Truffle",
+            "data": [80.91, 40.70, 25.83, 20.37, 16.66, 14.60, 9.10, 7.97, 7.72, 7.53, 7.40, 7.36]
+          },
+          {
+            "framework_name": "Hardhat",
+            "data": [34.87, 24.20, 18.76, 15.38, 13.22, 11.48, 7.37, 6.67, 6.39, 6.23, 6.08, 6.05]
+          },
+          {
+            "framework_name": "Foundry",
+            "data": [2.85, 2.35, 2.00, 1.78, 1.61, 1.48, 1.43, 1.42, 1.42, 1.42, 1.41, 1.41]
+          }
+        ]
+      }
+    }
+  ],
+  "frameworks": [
+    {
+      "name": "Truffle",
+      "color": "#B30C23"
+    },
+    {
+      "name": "Hardhat",
+      "color": "#B8AF16"
+    },
+    {
+      "name": "Foundry",
+      "color": "#FF8C00"
+    }
+  ]
+}

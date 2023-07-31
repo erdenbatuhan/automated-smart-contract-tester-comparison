@@ -1,4 +1,5 @@
 {
   "editor.tabSize": 2,
-  "solidity.telemetry": false
+  "solidity.telemetry": false,
+  "python.analysis.typeCheckingMode": "basic"
 }

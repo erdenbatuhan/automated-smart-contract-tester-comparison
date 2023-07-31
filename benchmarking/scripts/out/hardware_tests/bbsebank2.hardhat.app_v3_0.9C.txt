@@ -1,0 +1,12 @@
+Run 1 - Time: 12.82
+Run 2 - Time: 13.20
+Run 3 - Time: 13.23
+Run 4 - Time: 13.30
+Run 5 - Time: 13.14
+Run 6 - Time: 13.19
+Run 7 - Time: 13.12
+Run 8 - Time: 13.22
+Run 9 - Time: 13.22
+Run 10 - Time: 13.28
+Run 11 - Time: 13.24
+Median Time: 13.22

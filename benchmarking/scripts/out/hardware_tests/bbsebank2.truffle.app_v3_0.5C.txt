@@ -1,0 +1,12 @@
+Run 1 - Time: 89.57
+Run 2 - Time: 80.57
+Run 3 - Time: 84.81
+Run 4 - Time: 79.69
+Run 5 - Time: 75.89
+Run 6 - Time: 81.57
+Run 7 - Time: 83.58
+Run 8 - Time: 80.70
+Run 9 - Time: 80.91
+Run 10 - Time: 80.90
+Run 11 - Time: 89.57
+Median Time: 80.91
