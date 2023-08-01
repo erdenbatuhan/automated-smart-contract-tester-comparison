@@ -1,6 +1,6 @@
 #!/bin/bash
 
-RUN_COUNT=11
+RUN_COUNT=101
 
 # The command to be executed
 command_to_run="$1"
@@ -15,7 +15,7 @@ run_command_and_get_time() {
 # Redirect everything printed to the console to the file
 filename=$(echo "$command_to_run" | awk -v remove="/usr/bin/time " '{gsub(remove, ""); print}')  # Remove /usr/bin/time command
 filename=$(echo "$filename" | tr ' ' '_' | tr ':' '_' | tr '/' '.').txt  # Generate the filename based on the command
-exec > "./out/$filename"
+exec > "./$filename"
 
 # Array to store all the time values
 declare -a times_array
