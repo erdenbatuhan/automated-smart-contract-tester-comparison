@@ -1,5 +1,13 @@
-# Use the node image of choice as the base image
-FROM node:18-bullseye-slim
+# Use the latest ubuntu image
+FROM ubuntu:latest
+
+# Install curl
+RUN apt-get -y update
+RUN apt-get -y install curl
+
+# Install NodeJS 18
+RUN curl -s https://deb.nodesource.com/setup_18.x | bash
+RUN apt-get -y install nodejs
 
 # Change the working directory
 WORKDIR /app

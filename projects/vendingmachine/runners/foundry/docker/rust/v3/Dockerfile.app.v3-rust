@@ -1,0 +1,11 @@
+# Use the base image
+FROM vendingmachine/foundry/base:v3-rust
+
+# Change the working directory
+WORKDIR /app
+
+# Copy the contracts (the src folder) to the working directory
+COPY src src
+
+# Run the tests
+CMD ["forge", "test", "-vv"]

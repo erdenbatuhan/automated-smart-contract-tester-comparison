@@ -1,0 +1,29 @@
+# Use the latest ubuntu image
+FROM ubuntu:latest
+
+# Install curl & git
+RUN apt-get -y update
+RUN apt-get -y install curl
+RUN apt-get -y install git
+
+# Install Foundry
+RUN curl -L https://foundry.paradigm.xyz | bash
+ENV PATH="${PATH}:/root/.foundry/bin"
+RUN foundryup
+
+# Change the working directory
+WORKDIR /app
+
+# Copy the foundry configuration files to the working directory
+COPY foundry.toml .
+COPY remappings.txt .
+
+# Install the libraries
+RUN git init
+RUN forge install Openzeppelin/openzeppelin-contracts --no-commit
+
+# Copy the tests to the working directory
+COPY test test
+
+# Uncomment to keep the container running for debugging purposes
+# ENTRYPOINT ["tail", "-f", "/dev/null"]
