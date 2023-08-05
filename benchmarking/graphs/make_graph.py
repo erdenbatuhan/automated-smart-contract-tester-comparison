@@ -16,22 +16,22 @@ plt.rcParams.update({
 POSITIONAL_VALUES = ["center", "left", "right"]
 
 
-def create_perf_graph(projects, framework_color_palette):
+def create_perf_graph(projects, frameworks):
   for metadata in [
       {
         "name": "Test Execution Time", "type": "Seconds", "key_for_value": "execution_time_seconds",
-        "box_formatter": lambda y: f"{y:.2f}s", "y_axis_step_size": 1
+        "box_formatter": lambda y: f"{y:.2f}s", "y_axis_step_size": 1, "connect_extremes": False
       },
       {
         "name": "Container Size", "type": "MB", "key_for_value": "container_size_mb",
-        "box_formatter": lambda y: f"{y} MB", "y_axis_step_size": 100
+        "box_formatter": lambda y: f"{y} MB", "y_axis_step_size": 100, "connect_extremes": False
       }
   ]:
     for project in projects:
       plt.figure(figsize=(8, 5))
       ax = plt.gca()
 
-      ax.set_title(f"{project['name']} - {metadata['name']}s (Lower is better!)")
+      ax.set_title(f"{project['name']} - {metadata['name']}s")
       ax.set_xlabel("Docker Container Version")
       ax.set_ylabel(f"{metadata['name']} ({metadata['type']})")
 
@@ -41,8 +41,8 @@ def create_perf_graph(projects, framework_color_palette):
 
         # Annotate
         for x, y in zip(
-          [item["id"] for item in result["data"]],
-          [item[metadata["key_for_value"]] for item in result["data"]]
+          [item["id"] for item in result["data"] if not item.get("disabled", False)],
+          [item[metadata["key_for_value"]] for item in result["data"] if not item.get("disabled", False)]
         ):
           if y is not None:
             x_values.append(x)
@@ -55,19 +55,23 @@ def create_perf_graph(projects, framework_color_palette):
             )
 
         max_y_value = max(max_y_value, max(y_values))
-        framework_color = framework_color_palette[result["framework_name"]]
 
-        ax.plot(
-          x_values, y_values,
-          label=result["framework_name"], color=framework_color, linestyle = "solid",
-          marker = "o", markerfacecolor = framework_color, markeredgecolor = "black", markersize = 6
-        )
+        framework_info = frameworks[result["framework_name"]]
+        ax.plot(x_values, y_values, **{
+          "label": result["framework_name"], "color": framework_info["color"], "linestyle": framework_info["linestyle"],
+          "markerfacecolor": framework_info["color"], "marker": "o", "markeredgecolor": "black", "markersize": 6
+        })
+
+        # ax.plot(x_values[:-1], y_values[:-1], **line_options,
+        #         label=result["framework_name"], linestyle=framework_info["linestyle"])
+        # ax.plot(x_values[-2:], y_values[-2:], **line_options,
+        #         linestyle="dotted")
 
       # Adjust font size and position of the legend
-      ax.legend(fontsize=8.5, loc="upper right", bbox_to_anchor=(0.99, 0.93), facecolor="whitesmoke", edgecolor="black")
+      ax.legend(fontsize=8.5, loc="upper right", facecolor="whitesmoke", edgecolor="black")
 
       plt.xticks(rotation=0)
-      plt.yticks([i for i in range(0, int(max_y_value + 2), metadata["y_axis_step_size"]) if i != 0], rotation=0)
+      plt.yticks([i for i in range(0, int(max_y_value * 1.3), metadata["y_axis_step_size"]) if i != 0], rotation=0)
       plt.tight_layout()
 
       for line in ax.lines:
@@ -80,7 +84,7 @@ def create_perf_graph(projects, framework_color_palette):
       plt.close()
 
 
-def create_hardware_graph(projects, framework_color_palette):
+def create_hardware_graph(projects, frameworks):
   plt.figure(figsize=(10, 4))
   ax = plt.gca()
 
@@ -96,7 +100,6 @@ def create_hardware_graph(projects, framework_color_palette):
   for idx, result in enumerate(last_project["tests_hardware"]["results"]):
     y_values = result["data"]
     all_y_values += y_values
-    framework_color = framework_color_palette[result["framework_name"]]
 
     # Determine the sign (positive or negative) based on the index of the project
     sign = 1 if idx % 2 == 0 else -1
@@ -110,10 +113,11 @@ def create_hardware_graph(projects, framework_color_palette):
         rotation=40
       )
 
-    ax.plot(
-      x_values, y_values, label=result["framework_name"], color=framework_color, linestyle="solid",
-      marker="o", markerfacecolor=framework_color, markeredgecolor="black", markersize=8
-    )
+    framework_info = frameworks[result["framework_name"]]
+    ax.plot(x_values, y_values, **{
+      "label": result["framework_name"], "color": framework_info["color"], "linestyle": framework_info["linestyle"],
+      "marker": "o", "markerfacecolor": framework_info["color"], "markeredgecolor": "black", "markersize": 8
+    })
 
   # Adjust font size and position of the legend
   ax.legend(fontsize=8.5, loc="upper right", bbox_to_anchor=(0.99, 0.93), facecolor="whitesmoke", edgecolor="black")
@@ -132,7 +136,7 @@ def create_hardware_graph(projects, framework_color_palette):
   plt.close()
 
 
-def create_local_run_graph(projects, framework_color_palette):
+def create_local_run_graph(projects, frameworks):
   plt.figure(figsize=(7, 3))
   ax = plt.gca()
 
@@ -152,7 +156,7 @@ def create_local_run_graph(projects, framework_color_palette):
         max_result = max(max_result, result)
 
   for framework_name, values in data.items():
-    framework_color = framework_color_palette[framework_name]
+    framework_info = frameworks[framework_name]
 
     # Annotate
     for i in range(len(values)):
@@ -170,8 +174,8 @@ def create_local_run_graph(projects, framework_color_palette):
       )
 
     ax.plot(
-      project_names, values, label=framework_name, color=framework_color, linestyle="solid",
-      marker="o", markerfacecolor=framework_color, markeredgecolor="black", markersize=5
+      project_names, values, label=framework_name, color=framework_info["color"], linestyle=framework_info["linestyle"],
+      marker="o", markerfacecolor=framework_info["color"], markeredgecolor="black", markersize=5
     )
 
   # Adjust font size and position of the legend
@@ -193,8 +197,8 @@ if __name__ == "__main__":
   with open("./data/results.json", "r") as file:
     data = json.load(file)
 
-  framework_color_palette = {framework["name"]: framework["color"] for framework in data["frameworks"]}
+  frameworks = {framework["name"]: framework for framework in data["frameworks"]}
 
-  # create_perf_graph(data["projects"], framework_color_palette)
-  # create_hardware_graph(data["projects"], framework_color_palette)
-  create_local_run_graph(data["projects"], framework_color_palette)
+  create_perf_graph(data["projects"], frameworks)
+  # create_hardware_graph(data["projects"], frameworks)
+  # create_local_run_graph(data["projects"], frameworks)
