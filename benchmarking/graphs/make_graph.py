@@ -200,5 +200,5 @@ if __name__ == "__main__":
   frameworks = {framework["name"]: framework for framework in data["frameworks"]}
 
   create_perf_graph(data["projects"], frameworks)
-  # create_hardware_graph(data["projects"], frameworks)
-  # create_local_run_graph(data["projects"], frameworks)
+  create_hardware_graph(data["projects"], frameworks)
+  create_local_run_graph(data["projects"], frameworks)

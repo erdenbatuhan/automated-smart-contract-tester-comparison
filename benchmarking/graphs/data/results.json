@@ -38,19 +38,19 @@
               "id": "v1",
               "containerized": true,
               "container_size_mb": 1050,
-              "execution_time_seconds": 4.70
+              "execution_time_seconds": 6.35
             },
             {
               "id": "v2",
               "containerized": true,
               "container_size_mb": 1080,
-              "execution_time_seconds": 3.58
+              "execution_time_seconds": 3.87
             },
             {
               "id": "v3",
               "containerized": true,
               "container_size_mb": 1080,
-              "execution_time_seconds": 3.58
+              "execution_time_seconds": 3.87
             },
             {
               "id": "Not Containerized",
@@ -67,19 +67,19 @@
               "id": "v1",
               "containerized": true,
               "container_size_mb": 670,
-              "execution_time_seconds": 4.31
+              "execution_time_seconds": 5.66
             },
             {
               "id": "v2",
               "containerized": true,
               "container_size_mb": 713,
-              "execution_time_seconds": 2.68
+              "execution_time_seconds": 2.94
             },
             {
               "id": "v3",
               "containerized": true,
               "container_size_mb": 713,
-              "execution_time_seconds": 2.68
+              "execution_time_seconds": 2.94
             },
             {
               "id": "Not Containerized",
@@ -174,19 +174,19 @@
               "id": "v1",
               "containerized": true,
               "container_size_mb": 1050,
-              "execution_time_seconds": 8.27
+              "execution_time_seconds": 10.57
             },
             {
               "id": "v2",
               "containerized": true,
               "container_size_mb": 1080,
-              "execution_time_seconds": 7.29
+              "execution_time_seconds": 7.88
             },
             {
               "id": "v3",
               "containerized": true,
               "container_size_mb": 1080,
-              "execution_time_seconds": 7.29
+              "execution_time_seconds": 7.88
             },
             {
               "id": "Not Containerized",
@@ -203,19 +203,19 @@
               "id": "v1",
               "containerized": true,
               "container_size_mb": 621,
-              "execution_time_seconds": 7.02
+              "execution_time_seconds": 9.15
             },
             {
               "id": "v2",
               "containerized": true,
               "container_size_mb": 647,
-              "execution_time_seconds": 6.03
+              "execution_time_seconds": 6.30
             },
             {
               "id": "v3",
               "containerized": true,
               "container_size_mb": 647,
-              "execution_time_seconds": 6.03
+              "execution_time_seconds": 6.30
             },
             {
               "id": "Not Containerized",
@@ -289,15 +289,15 @@
         "results": [
           {
             "framework_name": "Truffle (ubuntu)",
-            "data": [80.91, 40.70, 25.83, 20.37, 16.66, 14.60, 9.10, 7.97, 7.72, 7.53, 7.40, 7.36]
+            "data": [81.43, 41.22, 26.35, 20.89, 17.18, 15.12, 9.62, 8.49, 8.24, 8.05, 7.92, 7.88]
           },
           {
             "framework_name": "Hardhat (ubuntu)",
-            "data": [34.87, 24.20, 18.76, 15.38, 13.22, 11.48, 7.37, 6.67, 6.39, 6.23, 6.08, 6.05]
+            "data": [35.12, 24.45, 19.01, 15.63, 13.47, 11.73, 7.62, 6.92, 6.64, 6.48, 6.33, 6.30]
           },
           {
             "framework_name": "Foundry (ubuntu)",
-            "data": [2.85, 2.35, 2.00, 1.78, 1.61, 1.48, 1.43, 1.42, 1.42, 1.42, 1.41, 1.41]
+            "data": [2.90, 2.40, 2.05, 1.83, 1.66, 1.53, 1.48, 1.47, 1.47, 1.47, 1.46, 1.46]
           }
         ]
       }
