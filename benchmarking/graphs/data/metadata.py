@@ -72,7 +72,7 @@ GRAPH_METADATA = [
   {
     "id": "LocalCompilationTestingTimes",
     "title": "Compilation and Testing Times of Different Frameworks",
-    "fig_size": (7, 4),
+    "fig_size": (8, 4),
     "xlabel": "Smart Contract Project",
     "ylabel": "Compilation and Testing Time (Seconds)",
     "test_type": "local",

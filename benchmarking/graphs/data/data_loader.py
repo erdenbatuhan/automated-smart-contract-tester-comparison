@@ -12,6 +12,6 @@ def extract_local_test_results(projects):
       local_test_results[framework_name]["values"].append(result)
 
   return [{
-    "name": " ".join([project["name"] for project in projects]),
+    "name": " and ".join([project["name"] for project in projects]),
     "tests_local": list(local_test_results.values())
   }]

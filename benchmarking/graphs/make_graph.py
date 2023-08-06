@@ -27,7 +27,7 @@ def create_graph(graph_metadata, projects, frameworks):
       fig, axes = plt.subplots(1, len(projects), figsize=metadata["fig_size"])
       project_data = projects
 
-    fig.suptitle(metadata["title"])
+    # fig.suptitle(metadata["title"])
     max_y_value = 0
 
     # Break out of the look if the project does not have this type of data
