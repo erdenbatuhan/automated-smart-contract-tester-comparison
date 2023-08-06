@@ -1,97 +1,75 @@
 {
-  "test_descriptions": [
-    {
-      "test_name": "tests_local",
-      "description": "Time taken to compile everything and to run tests. The presented results represent the median of 101 runs."
-    },
-    {
-      "test_name": "tests_docker",
-      "description": "Time taken to compile the contracts along with their dependencies and to run tests. The presented results represent the median of 101 runs."
-    },
-    {
-      "test_name": "tests_hardware",
-      "description": "Time taken to compile the contracts along with their dependencies and to run tests with different CPU configurations. The presented results represent the median of 11 runs."
-    }
-  ],
   "projects": [
     {
       "name": "Vending Machine",
-      "tests_local": [
+      "performance_results": [
         {
-          "framework_name": "Truffle (ubuntu)",
-          "result": 2.71
-        },
-        {
-          "framework_name": "Hardhat (ubuntu)",
-          "result": 1.90
-        },
-        {
-          "framework_name": "Foundry (ubuntu)",
-          "result": 0.96
-        }
-      ],
-      "tests_docker": [
-        {
-          "framework_name": "Truffle (ubuntu)",
+          "framework_name": "Truffle",
           "data": [
-            {
-              "id": "v1",
-              "containerized": true,
-              "container_size_mb": 1050,
-              "execution_time_seconds": 6.35
-            },
-            {
-              "id": "v2",
-              "containerized": true,
-              "container_size_mb": 1080,
-              "execution_time_seconds": 3.87
-            },
-            {
-              "id": "v3",
-              "containerized": true,
-              "container_size_mb": 1080,
-              "execution_time_seconds": 3.87
-            },
             {
               "id": "Not Containerized",
               "containerized": false,
               "container_size_mb": null,
               "execution_time_seconds": 2.72
-            }
-          ]
-        },
-        {
-          "framework_name": "Hardhat (ubuntu)",
-          "data": [
+            },
             {
               "id": "v1",
               "containerized": true,
-              "container_size_mb": 670,
-              "execution_time_seconds": 5.66
+              "container_size_mb": 1030,
+              "execution_time_seconds": 4.70
             },
             {
               "id": "v2",
               "containerized": true,
-              "container_size_mb": 713,
-              "execution_time_seconds": 2.94
+              "container_size_mb": 1060,
+              "execution_time_seconds": 3.58
             },
             {
               "id": "v3",
               "containerized": true,
-              "container_size_mb": 713,
-              "execution_time_seconds": 2.94
-            },
+              "container_size_mb": 1080,
+              "execution_time_seconds": 3.58
+            }
+          ]
+        },
+        {
+          "framework_name": "Hardhat",
+          "data": [
             {
               "id": "Not Containerized",
               "containerized": false,
               "container_size_mb": null,
               "execution_time_seconds": 1.33
+            },
+            {
+              "id": "v1",
+              "containerized": true,
+              "container_size_mb": 555,
+              "execution_time_seconds": 4.31
+            },
+            {
+              "id": "v2",
+              "containerized": true,
+              "container_size_mb": 597,
+              "execution_time_seconds": 2.68
+            },
+            {
+              "id": "v3",
+              "containerized": true,
+              "container_size_mb": 711,
+              "execution_time_seconds": 2.67
             }
           ]
         },
         {
-          "framework_name": "Foundry (ghcr.io/foundry-rs/foundry)",
+          "framework_name": "Foundry",
           "data": [
+            {
+              "id": "Not Containerized",
+              "containerized": false,
+              "container_size_mb": null,
+              "execution_time_seconds": 0.70
+            },
             {
               "id": "v1",
               "containerized": true,
@@ -101,133 +79,101 @@
             {
               "id": "v2",
               "containerized": true,
-              "container_size_mb": 120,
+              "container_size_mb": 121,
               "execution_time_seconds": 7.69
             },
             {
               "id": "v3",
               "containerized": true,
-              "container_size_mb": 126,
+              "container_size_mb": 127,
               "execution_time_seconds": 5.28
             },
             {
-              "id": "Not Containerized",
-              "containerized": false,
-              "container_size_mb": null,
-              "execution_time_seconds": 0.70
-            }
-          ]
-        },
-        {
-          "framework_name": "Foundry (ubuntu)",
-          "data": [
-            {
-              "id": "v1",
+              "id": "v4",
               "containerized": true,
-              "container_size_mb": 248,
-              "execution_time_seconds": 2.72
+              "container_size_mb": 1690,
+              "execution_time_seconds": 0.72
             },
             {
-              "id": "v2",
+              "id": "v5",
               "containerized": true,
-              "container_size_mb": 262,
-              "execution_time_seconds": 1.11
-            },
-            {
-              "id": "v3",
-              "containerized": true,
-              "container_size_mb": 269,
-              "execution_time_seconds": 0.78
-            },
-            {
-              "id": "Not Containerized",
-              "containerized": false,
-              "container_size_mb": null,
-              "execution_time_seconds": 0.70
+              "container_size_mb": 268,
+              "execution_time_seconds": 0.71
             }
           ]
         }
-      ],
-      "tests_hardware": null
+      ]
     },
     {
       "name": "BBSE Bank 2.0",
-      "tests_local": [
+      "performance_results": [
         {
-          "framework_name": "Truffle (ubuntu)",
-          "result": 4.98
-        },
-        {
-          "framework_name": "Hardhat (ubuntu)",
-          "result": 2.99
-        },
-        {
-          "framework_name": "Foundry (ubuntu)",
-          "result": 1.59
-        }
-      ],
-      "tests_docker": [
-        {
-          "framework_name": "Truffle (ubuntu)",
+          "framework_name": "Truffle",
           "data": [
-            {
-              "id": "v1",
-              "containerized": true,
-              "container_size_mb": 1050,
-              "execution_time_seconds": 10.57
-            },
-            {
-              "id": "v2",
-              "containerized": true,
-              "container_size_mb": 1080,
-              "execution_time_seconds": 7.88
-            },
-            {
-              "id": "v3",
-              "containerized": true,
-              "container_size_mb": 1080,
-              "execution_time_seconds": 7.88
-            },
             {
               "id": "Not Containerized",
               "containerized": false,
               "container_size_mb": null,
               "execution_time_seconds": 4.97
-            }
-          ]
-        },
-        {
-          "framework_name": "Hardhat (ubuntu)",
-          "data": [
+            },
             {
               "id": "v1",
               "containerized": true,
-              "container_size_mb": 621,
-              "execution_time_seconds": 9.15
+              "container_size_mb": 1040,
+              "execution_time_seconds": 8.27
             },
             {
               "id": "v2",
               "containerized": true,
-              "container_size_mb": 647,
-              "execution_time_seconds": 6.30
+              "container_size_mb": 1060,
+              "execution_time_seconds": 7.29
             },
             {
               "id": "v3",
               "containerized": true,
-              "container_size_mb": 647,
-              "execution_time_seconds": 6.30
-            },
+              "container_size_mb": 1080,
+              "execution_time_seconds": 7.31
+            }
+          ]
+        },
+        {
+          "framework_name": "Hardhat",
+          "data": [
             {
               "id": "Not Containerized",
               "containerized": false,
               "container_size_mb": null,
               "execution_time_seconds": 2.42
+            },
+            {
+              "id": "v1",
+              "containerized": true,
+              "container_size_mb": 557,
+              "execution_time_seconds": 7.02
+            },
+            {
+              "id": "v2",
+              "containerized": true,
+              "container_size_mb": 581,
+              "execution_time_seconds": 6.03
+            },
+            {
+              "id": "v3",
+              "containerized": true,
+              "container_size_mb": 645,
+              "execution_time_seconds": 6.02
             }
           ]
         },
         {
-          "framework_name": "Foundry (ghcr.io/foundry-rs/foundry)",
+          "framework_name": "Foundry",
           "data": [
+            {
+              "id": "Not Containerized",
+              "containerized": false,
+              "container_size_mb": null,
+              "execution_time_seconds": 1.33
+            },
             {
               "id": "v1",
               "containerized": true,
@@ -247,57 +193,34 @@
               "execution_time_seconds": 10.91
             },
             {
-              "id": "Not Containerized",
-              "containerized": false,
-              "container_size_mb": null,
-              "execution_time_seconds": 1.33
-            }
-          ]
-        },
-        {
-          "framework_name": "Foundry (ubuntu)",
-          "data": [
-            {
-              "id": "v1",
+              "id": "v4",
               "containerized": true,
-              "container_size_mb": 291,
-              "execution_time_seconds": 3.41
+              "container_size_mb": 1700,
+              "execution_time_seconds": 1.41
             },
             {
-              "id": "v2",
+              "id": "v5",
               "containerized": true,
-              "container_size_mb": 311,
-              "execution_time_seconds": 1.57
-            },
-            {
-              "id": "v3",
-              "containerized": true,
-              "container_size_mb": 316,
-              "execution_time_seconds": 1.46
-            },
-            {
-              "id": "Not Containerized",
-              "containerized": false,
-              "container_size_mb": null,
-              "execution_time_seconds": 1.33
+              "container_size_mb": 278,
+              "execution_time_seconds": 1.42
             }
           ]
         }
       ],
-      "tests_hardware": {
+      "hardware_tests": {
         "cpus": [0.5, 0.6, 0.7, 0.8, 0.9, 1.0, 1.5, 2.0, 2.5, 3.0, 4.0, 5.0],
         "results": [
           {
-            "framework_name": "Truffle (ubuntu)",
-            "data": [81.43, 41.22, 26.35, 20.89, 17.18, 15.12, 9.62, 8.49, 8.24, 8.05, 7.92, 7.88]
+            "framework_name": "Truffle",
+            "data": [80.91, 40.70, 25.83, 20.37, 16.66, 14.60, 9.10, 7.97, 7.72, 7.53, 7.40, 7.36]
           },
           {
-            "framework_name": "Hardhat (ubuntu)",
-            "data": [35.12, 24.45, 19.01, 15.63, 13.47, 11.73, 7.62, 6.92, 6.64, 6.48, 6.33, 6.30]
+            "framework_name": "Hardhat",
+            "data": [34.87, 24.20, 18.76, 15.38, 13.22, 11.48, 7.37, 6.67, 6.39, 6.23, 6.08, 6.05]
           },
           {
-            "framework_name": "Foundry (ubuntu)",
-            "data": [2.90, 2.40, 2.05, 1.83, 1.66, 1.53, 1.48, 1.47, 1.47, 1.47, 1.46, 1.46]
+            "framework_name": "Foundry",
+            "data": [2.85, 2.35, 2.00, 1.78, 1.61, 1.48, 1.43, 1.42, 1.42, 1.42, 1.41, 1.41]
           }
         ]
       }
@@ -305,24 +228,16 @@
   ],
   "frameworks": [
     {
-      "name": "Truffle (ubuntu)",
-      "color": "#B30C23",
-      "linestyle": "solid"
+      "name": "Truffle",
+      "color": "#B30C23"
     },
     {
-      "name": "Hardhat (ubuntu)",
-      "color": "#B8AF16",
-      "linestyle": "solid"
+      "name": "Hardhat",
+      "color": "#B8AF16"
     },
     {
-      "name": "Foundry (ubuntu)",
-      "color": "#FF8C00",
-      "linestyle": "solid"
-    },
-    {
-      "name": "Foundry (ghcr.io/foundry-rs/foundry)",
-      "color": "#DD8C00",
-      "linestyle": "dashed"
+      "name": "Foundry",
+      "color": "#FF8C00"
     }
   ]
 }
