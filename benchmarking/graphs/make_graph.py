@@ -60,7 +60,7 @@ def create_graph(graph_metadata, projects, frameworks):
             if metadata["annotation"]["datapoint_diff_included"] and zip_idx > 0:
               diff = y - y_values[zip_idx - 1]
               sign = "+" if diff >= 0 else "-"
-              annotation_text = f"{annotation_text} ({sign} {abs(diff):.2f})"
+              annotation_text = f"{annotation_text} ({sign} {abs(diff):.2f}s)"
 
             # Add the annotation
             ax.annotate(
