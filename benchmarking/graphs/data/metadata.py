@@ -18,7 +18,7 @@ GRAPH_METADATA = [
       "get_box_format": lambda y: f"{y:.2f}s",
       "get_ha": lambda _: POSITIONAL_VALUES[1],
       "get_xy_text": lambda _: (8, 2),
-      "slowdown_included": False
+      "datapoint_diff_included": False
     },
     "get_yticks": lambda max_y_value: [i for i in range(0, int(max_y_value + 2), 1) if i != 0],
     "xticks_rotation": 0,
@@ -40,7 +40,7 @@ GRAPH_METADATA = [
       "get_box_format": lambda y: f"{y} MB",
       "get_ha": lambda _: POSITIONAL_VALUES[1],
       "get_xy_text": lambda _: (8, 2),
-      "slowdown_included": False
+      "datapoint_diff_included": False
     },
     "get_yticks": lambda max_y_value: [i for i in range(0, int(max_y_value * 1.3 + 200), 100) if i != 0],
     "xticks_rotation": 0,
@@ -63,7 +63,7 @@ GRAPH_METADATA = [
       "get_box_format": lambda y: f"{y:.2f}s",
       "get_ha": lambda signs: POSITIONAL_VALUES[signs[0]] if signs[0] >= 1 else POSITIONAL_VALUES[0],
       "get_xy_text": lambda signs: (signs[0] * 6, signs[0] * 2),
-      "slowdown_included": False
+      "datapoint_diff_included": False
     },
     "get_yticks": lambda max_y_value: [i for i in range(0, int(max_y_value + 10), 5) if i != 0],
     "xticks_rotation": 90,
@@ -86,7 +86,7 @@ GRAPH_METADATA = [
       "get_box_format": lambda y: f"{y:.2f}s",
       "get_ha": lambda signs: POSITIONAL_VALUES[signs[1]],
       "get_xy_text": lambda signs: (signs[1] * 8, signs[1] * 4),
-      "slowdown_included": True
+      "datapoint_diff_included": True
     },
     "get_yticks": lambda max_y_value: [i for i in range(0, int(max_y_value * 1.3 + 2), 1) if i != 0],
     "xticks_rotation": 0,

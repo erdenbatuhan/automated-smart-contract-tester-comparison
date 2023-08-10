@@ -21,10 +21,10 @@ plt.rcParams.update({
 def create_graph(graph_metadata, projects, frameworks):
   for metadata in graph_metadata:
     if metadata["only_last_project"]:
-      fig, ax = plt.subplots(1, 1, figsize=metadata["fig_size"])
+      _, ax = plt.subplots(1, 1, figsize=metadata["fig_size"])
       axes, project_data = [ax], [projects[-1]]
     else:
-      fig, axes = plt.subplots(1, len(projects), figsize=metadata["fig_size"])
+      _, axes = plt.subplots(1, len(projects), figsize=metadata["fig_size"])
       project_data = projects
 
     # fig.suptitle(metadata["title"])
@@ -57,9 +57,10 @@ def create_graph(graph_metadata, projects, frameworks):
 
             # Create the annotation text
             annotation_text = metadata["annotation"]["get_box_format"](y)
-            if metadata["annotation"]["slowdown_included"] and zip_idx > 0:
-              slowdown = ((y - y_values[zip_idx - 1]) / y_values[zip_idx - 1]) * 100
-              annotation_text = f"{annotation_text} ({slowdown:.2f}% slower)"
+            if metadata["annotation"]["datapoint_diff_included"] and zip_idx > 0:
+              diff = y - y_values[zip_idx - 1]
+              sign = "+" if diff >= 0 else "-"
+              annotation_text = f"{annotation_text} ({sign} {abs(diff):.2f})"
 
             # Add the annotation
             ax.annotate(
