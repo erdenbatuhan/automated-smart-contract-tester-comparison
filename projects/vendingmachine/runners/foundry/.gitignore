@@ -1,7 +1,3 @@
-# Contracts (The originals will be kept outside this directory)
-contracts/
-src/
-
 # Compiler files
 cache/
 out/

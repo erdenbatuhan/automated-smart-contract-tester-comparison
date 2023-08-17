@@ -3,6 +3,8 @@
  * @name OracleServer
  * @description This is the main entry point file for the Oracle Server.
  * @author Burak Öz
+ * 
+ * B. Öz. BBSE Bank 2.0 GitHub Repository. https://github.com/sebischair/bbse-bank-2.0. Accessed: July 31, 2023. 2022.
  */
 
 import fetch from "node-fetch";

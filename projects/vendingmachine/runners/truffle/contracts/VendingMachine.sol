@@ -1,3 +1,10 @@
+/**
+ * @title VendingMachine
+ * @author Jonathan Spruance
+ * 
+ * J. Spruance. Vending Machine Source Code. https://github.com/jspruance/block-explorer-tutorials/blob/main/apps/VendingMachine/vending-machine/contracts/VendingMachine.sol. Accessed: July 31, 2023. 2022.
+ */
+
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.11;
 

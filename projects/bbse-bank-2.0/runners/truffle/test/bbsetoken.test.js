@@ -3,6 +3,8 @@
  * @name BBSETokenTest
  * @description Test file for BBSEToken contract.
  * @author Burak Öz
+ * 
+ * B. Öz. BBSE Bank 2.0 GitHub Repository. https://github.com/sebischair/bbse-bank-2.0. Accessed: July 31, 2023. 2022.
  */
 
 const BBSEToken = artifacts.require("BBSEToken");

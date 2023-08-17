@@ -2,6 +2,8 @@
  * @title ETHBBSEPriceFeedOracle
  * @dev A smart contract for providing the ETH/BBSE price feed.
  * @author Burak Öz
+ * 
+ * B. Öz. BBSE Bank 2.0 GitHub Repository. https://github.com/sebischair/bbse-bank-2.0. Accessed: July 31, 2023. 2022.
  */
 
 // SPDX-License-Identifier: MIT

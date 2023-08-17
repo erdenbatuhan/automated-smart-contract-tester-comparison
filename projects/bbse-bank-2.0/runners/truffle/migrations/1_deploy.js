@@ -3,6 +3,8 @@
  * @name BBSEBank-2.0-Deployer
  * @description This script is used to deploy the BBSEToken, BBSEBank, and ETHBBSEPriceFeedOracle contracts.
  * @author Burak Öz
+ * 
+ * B. Öz. BBSE Bank 2.0 GitHub Repository. https://github.com/sebischair/bbse-bank-2.0. Accessed: July 31, 2023. 2022.
  */
 
 const BBSEToken = artifacts.require("BBSEToken");
