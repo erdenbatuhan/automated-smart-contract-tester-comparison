@@ -10,3 +10,6 @@
 [submodule "projects/bbse-bank-2.0/runners/foundry/lib/openzeppelin-contracts"]
 	path = projects/bbse-bank-2.0/runners/foundry/lib/openzeppelin-contracts
 	url = https://github.com/Openzeppelin/openzeppelin-contracts
+[submodule "foundry-starter-kit"]
+	path = examples/foundry/foundry-starter-kit
+	url = https://github.com/smartcontractkit/foundry-starter-kit.git
